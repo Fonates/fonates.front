@@ -1,0 +1,38 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px);
+    height: 58px;
+    border-radius: 20px;
+    padding: 0 20px;
+    justify-content: space-between;
+}
+
+.middleSide {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.middleSide > a {
+    font-size: 14px;
+    color: white;
+}
+
+.separator {
+    width: 2px;
+    height: 18px;
+    background-color: #171719;
+    border-radius: 12px;
+}
+
+.leftSide > span {
+    color: #A5A5A5;
+}
+
+.rightSide > span {
+    font-size: 14px;
+    color: #A5A5A5;
+}

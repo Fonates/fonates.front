@@ -1,0 +1,20 @@
+.headerWrapper {
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px);
+    width: 100%;
+    height: 64px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.headerWrapper > span {
+    font-size: 20px;
+}
+
+.headerLinks > a {
+    font-size: 16px;
+}
