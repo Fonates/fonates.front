@@ -11,10 +11,19 @@
     margin-bottom: 24px;
 }
 
-.headerWrapper > span {
-    font-size: 20px;
-}
-
 .headerLinks > a {
     font-size: 16px;
+}
+
+.logo {
+    font-size: 20px;
+    color: white;
+}
+
+.logo:hover {
+    color: white !important;
+}
+
+.logo:active {
+    transform: scale(1);
 }

@@ -1,7 +1,7 @@
 const Page = () => {
     return (
         <div className="container">
-            fdsfs
+            donate page
         </div>
     )
 }
