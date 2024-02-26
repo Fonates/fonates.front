@@ -26,3 +26,4 @@ jobs:
 
       - name: Start App
         run: pm2 restart fonates.front
+        # restart the app
