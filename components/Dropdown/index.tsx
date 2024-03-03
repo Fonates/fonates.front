@@ -1,0 +1,46 @@
+import styles from './style.module.css';
+import IconChevron from '../../public/icons/chevron.svg';
+import Image from 'next/image';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+
+interface DropdownProps {
+      arrayInfo: Array<{
+            name: string;
+            value: string;
+      }>;
+}
+
+const DropdownItem = (props: { name: string; value: string }) => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+            <div className={styles.dropdownItem} onClick={() => setIsOpen(!isOpen)}>
+                  <div className={styles.header}>
+                        <p>{props.name}</p>
+                        <Image src="/icons/chevron.svg" alt="chevron" width={38} height={38} />
+                  </div>
+                  {isOpen && (
+                        <div className={styles.dropdownContent}>
+                              <p>{props.value}</p>
+                        </div>
+                  )}
+            </div>
+      )
+};
+
+export const Dropdown = (props: DropdownProps) => {
+      return (
+            <div className={styles.wrapper}>
+                  {props.arrayInfo.map((item, index) => {
+                        return (
+                              <DropdownItem
+                                    key={index}
+                                    name={item.name}
+                                    value={item.value}
+                              />
+                        )
+                  })}
+            </div>
+      )
+};

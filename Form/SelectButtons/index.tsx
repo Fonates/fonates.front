@@ -12,8 +12,6 @@ interface SelectButtonsProps {
 export const SelectButtons = (props: SelectButtonsProps) => {
       const [indexElem, setIndex] = useState(0);
 
-      console.log(indexElem);
-
       const handleChangeValue = (index: number) => {
             props.setForm(props.formName, props.arrayValues[index].toString());
       };

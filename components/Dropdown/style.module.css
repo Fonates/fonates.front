@@ -1,0 +1,37 @@
+.wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+}
+
+.dropdownItem {
+      display: flex;
+      flex-direction: column;
+      transition: 0.3s;
+      background-color: #0D0D0D;
+      border-radius: 24px;
+      padding: 20px;
+      cursor: pointer;
+      gap: 10px;
+      user-select: none;
+}
+
+.dropdownContent {
+
+}
+
+.dropdownContent > p {
+      font-size: 14px;
+      color: #CECECE;
+}
+
+.header {
+      display: flex;
+      align-items: center;
+}
+
+.header > p {
+      width: 100%;
+      font-size: 18px;
+      font-weight: 500;
+}

@@ -3,6 +3,8 @@ import { Noto_Sans_Display } from "next/font/google";
 import { Header } from "src/components/Header/Header";
 import { Footer } from "src/components/Footer/Footer";
 import "./globals.css";
+import { useEffect, useState } from "react";
+import { Layout } from "src/components/Layout";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,13 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>
-          <Header />
-          <div className="container">
-            {children}
-          </div>
-          <Footer />
-        </main>
+        <Layout>
+          <main>
+            <Header />
+            <div className="container">
+              {children}
+            </div>
+            <Footer />
+          </main>
+        </Layout>
       </body>
     </html>
   );
