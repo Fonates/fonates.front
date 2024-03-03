@@ -1,0 +1,112 @@
+.wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+}
+
+/* .wrapper > span {
+      font-size: 14;
+      font-weight: 400;
+      position: absolute;
+      color: #1DA3FF;
+      top: -10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 24px;
+      z-index: 1;
+}
+
+.wrapper > span::before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      padding: 0px 8px;
+      height: 1px;
+      background-color: #171719;
+      top: 10px;
+      z-index: -1;
+} */
+
+.wrapper > span {
+      font-size: 14;
+      font-weight: 400;
+}
+
+.textFieldWrapper {
+      display: flex;
+      align-items: center;
+      background-color: #171719;
+      color: white;
+      border-radius: 12px;
+      height: 48px;
+      justify-content: space-between;
+      width: 100%;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+      overflow: hidden;
+}
+
+.valueName {
+      font-size: 20px;
+      font-weight: 500;
+      color: #313131;
+      transition: all 0.3s ease;
+      padding-right: 16px;
+}
+
+.textFieldWrapperFocus {
+      border: #1DA3FF solid 1px;
+}
+
+.textFieldWrapperFocus > .valueName {
+      color: #1DA3FF;
+}
+
+.textFieldWrapper > input, .textFieldWrapper > textarea {
+      height: 100%;
+      width: 100%;
+      font-size: 20px;
+      font-weight: 300;
+      background-color: transparent;
+      color: white;
+      padding-left: 16px;
+      padding-right: 16px;
+}
+
+.wrapper > .multifeald {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+}
+
+.wrapper > .multifeald > .maxLength {
+      margin-right: 16px;
+      margin-bottom: 16px;
+      color: #313131;
+      font-weight: 500;
+}
+
+
+.textFieldWrapper > textarea {
+      padding: 16px;
+      scrollbar-width: auto; /* Устанавливаем ширину скроллбара (thin, auto, или none) */
+      scrollbar-color: #999999 transparent; /* Устанавливаем цвет скроллбара */
+      resize: none;
+}
+
+.textFieldWrapperFocus > .maxLength {
+      color: #1DA3FF !important;
+}
+
+.textFieldWrapperFocus > input, .textFieldWrapperFocus > textarea {
+      caret-color: #1DA3FF;
+      scrollbar-color: #1DA3FF transparent; /* Устанавливаем цвет скроллбара */
+}
+
+.textFieldWrapper > input::placeholder, .textFieldWrapper > textarea::placeholder {
+      color: #313131;
+      font-weight: 300;
+}

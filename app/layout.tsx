@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Display } from "next/font/google";
 import { Header } from "src/components/Header/Header";
-import "./globals.css";
 import { Footer } from "src/components/Footer/Footer";
-
-const inter = Noto_Sans_Display({ subsets: ["latin"] });
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,10 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <main>
           <Header />
-          {children}
+          <div className="container">
+            {children}
+          </div>
           <Footer />
         </main>
       </body>

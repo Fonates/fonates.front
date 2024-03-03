@@ -3,8 +3,6 @@ import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className="container">
-      main page
-    </div>
+    'main page'
   );
 }
