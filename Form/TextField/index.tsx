@@ -104,19 +104,19 @@ export const TextareaField = (props: TextareaFieldProps) => {
     }, [value]);
 
     useEffect(() => {
-        if (refTextField.current) {
-            refTextField.current.addEventListener('focus', () => {
+        if (refTextField?.current) {
+            refTextField?.current?.addEventListener('focus', () => {
                 setIsFocus(true);
             });
-            refTextField.current.addEventListener('blur', () => {
+            refTextField?.current?.addEventListener('blur', () => {
                 setIsFocus(false);
             });
 
             return () => {
-                refTextField.current.removeEventListener('focus', () => {
+                refTextField?.current?.removeEventListener('focus', () => {
                     setIsFocus(true);
                 });
-                refTextField.current.removeEventListener('blur', () => {
+                refTextField?.current?.removeEventListener('blur', () => {
                     setIsFocus(false);
                 });
             }
