@@ -1,7 +1,7 @@
 .wrapperForm {
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 16px;
       padding: 24px;
       background-color: #0D0D0D;
       border-radius: 20px;
@@ -40,7 +40,7 @@
       text-align: center;
       color: #383838;
       font-size: 18px;
-      font-weight: 300;
+      font-weight: 400;
 }
 
 .username {

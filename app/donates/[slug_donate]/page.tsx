@@ -37,6 +37,7 @@ const Page = () => {
               arrayValues={[5, 10, 25, 50]}
               nameValue="TON"
               setForm={setFormValue}
+              fieldName="Сумма доната"
               formName="amount"
             />
           </div>
@@ -85,7 +86,7 @@ const Page = () => {
            </div>
            <h1 className={styles.username}>ThePetrushka</h1>
            <span className={styles.qrHint}>
-             Scan the QR-code below with а саmега in уour TON wallet
+              Сканируйте QR код для отправки доната
            </span>
          </div>
         )}

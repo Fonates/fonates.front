@@ -5,6 +5,18 @@
       gap: 8px;
 }
 
+.wrapperSelectButtons {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+}
+
+.wrapperSelectButtons > span {
+      font-size: 14px;
+      font-weight: 400;
+}
+
+
 .button {
       background-color: #171719;
       border-radius: 16px;

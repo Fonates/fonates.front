@@ -18,7 +18,7 @@ const DropdownItem = (props: { name: string; value: string }) => {
             <div className={styles.dropdownItem} onClick={() => setIsOpen(!isOpen)}>
                   <div className={styles.header}>
                         <p>{props.name}</p>
-                        <Image src="/icons/chevron.svg" alt="chevron" width={38} height={38} />
+                        <Image src="/icons/chevron.svg" alt="chevron" width={38} height={38} style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                   </div>
                   {isOpen && (
                         <div className={styles.dropdownContent}>
