@@ -5,6 +5,7 @@ import { Footer } from "src/components/Footer/Footer";
 import "./globals.css";
 import { useEffect, useState } from "react";
 import { Layout } from "src/components/Layout";
+import LazyBackgroundImage from "src/components/LazyBackgroundImage";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,13 +21,18 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Layout>
-          <main>
-            <Header />
-            <div className="container">
-              {children}
-            </div>
-            <Footer />
-          </main>
+          <LazyBackgroundImage img={'/background-ton.svg'} style={{
+            width: "100%",  
+            minHeight: '100vh',
+          }}>
+            <main>
+              <Header />
+              <div className="container">
+                {children}
+              </div>
+              <Footer />
+            </main>
+          </LazyBackgroundImage>
         </Layout>
       </body>
     </html>

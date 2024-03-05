@@ -8,10 +8,13 @@ import { SelectButtons } from "src/Form/SelectButtons";
 import { Dropdown } from "src/components/Dropdown";
 import useMediaQuery from "src/hooks/useMediaQuery";
 import { Layout } from "src/components/Layout";
+import { Button, TypeButton } from "src/Form/Button";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const { form, setFormValue } = useForm();
   const isMobileWidth = useMediaQuery("(max-width: 768px)");
+  const router = useRouter();
 
   const arrayFaq = [
     {
@@ -30,6 +33,12 @@ const Page = () => {
 
   return (
     <Layout>
+      <div className={styles.msgWrapper}>
+        <p>Теперь вы можете поддержать любимого стримера через криптовалюту, нажмите кнопку рядом чтобы получить больше информации.</p>
+        <Button type={TypeButton.secondary} onClick={() => router.push('/articles/how-it-is-works?')}>
+          Как это работает?
+        </Button>
+      </div>
       <div className={styles.wrapper}>
         <div className={styles.wrapperForm}>
           <div className={styles.amountWrapper}>

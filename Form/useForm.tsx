@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export const useForm = () => {
-      const [form, setForm] = useState({});
+      const [form, setForm]: any = useState({});
 
       const setFormValue = (name: string, value: string) => {
           setForm({
