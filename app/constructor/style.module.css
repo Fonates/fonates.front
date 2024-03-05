@@ -63,6 +63,18 @@
       .msgWrapper > p {
             text-align: center;
       }
+      .form {
+            flex-direction: column;
+      }
+      .msgWrapper {
+            padding: 24px;
+            gap: 16px;
+            align-items: center;
+      }
+      .btnWrapper {
+            flex-direction: column;
+            width: 100%;
+      }
 }
 
 .amountWrapper {
@@ -72,11 +84,23 @@
 }
 
 .wrapper {
-      /* flex: 1; */
       display: flex;
       flex-direction: column;
       justify-items: center;
       gap: 20px;
+}
+
+@media screen and (max-width: 768px) {
+      .wrapper {
+            flex: 1;
+      }
+
+      .linkWrapper > p {
+            color: #383838;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 400;
+      }
 }
 
 .qrWrapper {
@@ -124,7 +148,7 @@
 
 .info {
       color: #A5A5A5;
-      max-width: 634px;
+      max-width: 768px;
       text-align: center;
       margin-top: 40px;
       margin-bottom: 60px;

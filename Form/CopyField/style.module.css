@@ -11,15 +11,16 @@
       position: relative;
       z-index: 0;
       overflow: hidden;
-      gap: 14px;
+      gap: 6px;
 }
 
 .wrapper > span {
       color: #909090;
       font-size: 16px;
       font-weight: 400;
-      word-wrap: break-word;
-      max-width: 400px;
+      word-break: break-all;
+      /* max-width: 400px; */
+      white-space: pre-wrap;
 }
 
 .copyField {
@@ -36,13 +37,11 @@
       color: #fff;
 }
 
-.wrapper > span {
-      width: 100%;
-}
-
 .iconWrapper {
       width: 24px;
       height: 24px;
+      min-width: 24px;
+      min-height: 24px;
       cursor: pointer;
       transition: 0.3s;
       opacity: 0.5;

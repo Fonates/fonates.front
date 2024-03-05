@@ -64,8 +64,7 @@ const Page = () => {
                               <p>Ссылка для публикации в социальных сетях или на стриминговых сервисах</p>
                         </div>
                   </div>
-                  {!isMobileWidth && (
-                  <div className={styles.wrapperForm} style={{ width: "fit-content" }}>
+                  <div className={styles.wrapperForm} style={{ width: isMobileWidth ? '100%' : "fit-content" }}>
                         <div className={styles.qrWrapper}>
                               <QR
                               color="#fff"
@@ -90,7 +89,6 @@ const Page = () => {
                               Вы можете скачать QR-код для публикации в социальных сетях
                         </span>
                   </div>
-                  )}
             </div>
             {isCopy && (
                   <div className={styles.msgWrapper}>
