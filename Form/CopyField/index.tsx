@@ -12,14 +12,23 @@ interface ICopyContainer {
 export const CopyField = (props: ICopyContainer) => {
       const [isAnimation, setIsAnimation] = useState(false);
 
-      const handleCopy = () => {
+      const handleCopy = async() => {
             if (props.disabled) return;
-            navigator.clipboard.writeText(props.value);
-            setIsAnimation(true);
-            setTimeout(() => {
-                  setIsAnimation(false);
-            }, 1000);
-            props.onCopy && props.onCopy();
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                try {
+                    await navigator.clipboard.writeText(props.value);
+                    setIsAnimation(true);
+                    setTimeout(() => {
+                        setIsAnimation(false);
+                    }, 1000);
+                    props.onCopy && props.onCopy();
+                } catch (error) {
+                    console.error('Failed to copy:', error);
+                }
+            } else {
+                console.error('Clipboard API not available');
+            }
       }
 
       return (

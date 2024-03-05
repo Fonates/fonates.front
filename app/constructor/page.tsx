@@ -21,8 +21,6 @@ const Page = () => {
   const router = useRouter();
   const isDisabledLink = (form?.address == '' || !form?.address) || (form?.username == '' || !form?.username);
 
-  console.log(form)
-
   useEffect(() => {
       if (form?.address != '') {
         setLink(new URL(BASE_URL.replace("<wallet_address>", form.address)).href);
