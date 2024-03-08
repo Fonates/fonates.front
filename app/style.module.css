@@ -1,0 +1,53 @@
+.mainInfo {
+   display: flex;
+   flex-direction: column;
+   gap: 40px;  
+   align-items: center;
+   margin-bottom: 245px;
+   flex: 1;
+   margin-top: 240px;
+}
+
+@media screen and (max-width: 768px) {   
+      .mainInfo {
+            margin-top: 68px;
+      }
+      
+      .title {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+      }
+}
+
+.title > h1 {
+      font-size: 96px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #FFE9BE -0.43%, #1DA3FF 94.3%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+
+      @media screen and (max-width: 768px) {
+            font-size: 36px;
+            text-align: center;
+            line-height: 36px;
+      }
+}
+
+.title > p {
+      font-size: 32px;
+      text-align: center;
+      font-weight: 400;
+
+      @media screen and (max-width: 768px) {
+            font-size: 22px;
+            text-align: center;
+      }
+}
+
+.title > p > span {
+      color: #1DA3FF;
+      font-weight: 600;
+}

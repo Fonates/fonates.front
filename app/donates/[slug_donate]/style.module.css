@@ -3,7 +3,7 @@
       flex-direction: column;
       gap: 16px;
       padding: 24px;
-      background-color: #0D0D0D;
+      background-color: #000;
       border-radius: 20px;
       width: 100%;
 }
@@ -20,7 +20,7 @@
 
 .msgWrapper > p {
       width: 100%;
-      color: #0D0D0D;
+      color: #000;
       font-weight: 400;
       display: flex;
       align-items: center;

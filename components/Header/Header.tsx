@@ -8,7 +8,7 @@ export const Header = () => {
                 <span><b>TON</b> Fonates</span>
             </Link>
             <div className={styles.headerLinks}>
-                <Link href="/articles/quickstart">
+                <Link href="/articles/quickstart" className={styles.link}>
                     Quick start
                 </Link>
             </div>

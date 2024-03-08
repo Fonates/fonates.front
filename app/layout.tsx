@@ -21,9 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Layout>
-          <LazyBackgroundImage img={'/background-ton.svg'} style={{
+          <LazyBackgroundImage img={'/radials.svg'} style={{
             width: "100%",  
             minHeight: '100vh',
+            backgroundPosition: 'center',
+            backgroundPositionY: '-224px',
+            backgroundSize: 'cover',
           }}>
             <main>
               <Header />

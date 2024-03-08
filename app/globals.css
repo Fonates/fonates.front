@@ -12,6 +12,7 @@ html {
 }
 
 body {
+    background: radial-gradient(120.18% 45.31% at 50% 100%, rgba(29, 163, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%), radial-gradient(169.47% 76.5% at 50% -18.89%, rgba(29, 163, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%), #060606;
     min-height: 100vh;
     display: flex;
 }

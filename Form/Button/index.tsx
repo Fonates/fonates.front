@@ -4,11 +4,12 @@ export enum TypeButton {
       primary = "primary",
       secondary = "secondary",
       tertiary = "tertiary",
+      accentBorder = "accent_border",
 }
 
 interface IButton {
       type: TypeButton | string;
-      onClick: () => void;
+      onClick?: () => void;
       style?: React.CSSProperties;
       children: React.ReactNode;
 }

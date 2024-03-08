@@ -11,7 +11,7 @@ export const Footer = () => {
                 <Link href="https://t.me/fonates">
                     Telegram
                 </Link>
-                <span className={styles.separator}></span>
+                {/* <span className={styles.separator}></span> */}
                 <Link href="https://t.me/pewpells">
                     Support
                 </Link>
