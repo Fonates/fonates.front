@@ -26,7 +26,7 @@ export default function RootLayout({
             minHeight: '100vh',
             backgroundPosition: 'center',
             backgroundPositionY: '-224px',
-            backgroundSize: 'cover',
+            // backgroundSize: 'cover',
           }}>
             <main>
               <Header />

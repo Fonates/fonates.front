@@ -3,9 +3,8 @@
    flex-direction: column;
    gap: 40px;  
    align-items: center;
-   margin-bottom: 245px;
+   margin-top: 15%;
    flex: 1;
-   margin-top: 240px;
 }
 
 @media screen and (max-width: 768px) {   
