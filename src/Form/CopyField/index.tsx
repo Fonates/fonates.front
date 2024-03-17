@@ -1,4 +1,4 @@
-import LazyBackgroundImage from "src/components/LazyBackgroundImage";
+import LazyBackgroundImage from "@/components/LazyBackgroundImage";
 import styles from "./style.module.css";
 import { useState } from "react";
 

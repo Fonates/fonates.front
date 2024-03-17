@@ -1,14 +1,13 @@
-'use client';
-import { Layout } from "src/components/Layout";
-import styles from "./style.module.css";
-import { Button, TypeButton } from "src/Form/Button";
+import { Button, TypeButton } from "@/Form/Button";
 import { useRouter } from "next/navigation";
+import styles from "./style.module.css";
+import { Fragment } from "react";
 
 const Page = () => {
   const router = useRouter();
 
   return (
-    <Layout>
+    <Fragment>
       <div className={styles.mainInfo}>
         <div className={styles.title}>
           <h1>Новая эра донатов</h1>
@@ -22,7 +21,7 @@ const Page = () => {
           Быстрый старт
         </Button>
       </div>
-    </Layout>
+    </Fragment>
   );
 }
 

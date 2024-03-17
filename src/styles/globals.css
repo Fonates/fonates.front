@@ -67,6 +67,10 @@ main {
     }
 }
 
+#__next {
+    width: 100%;
+}
+
 .container {
     display: flex;
     flex: 1;

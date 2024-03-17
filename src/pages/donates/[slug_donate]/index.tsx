@@ -1,14 +1,14 @@
-"use client";
-import { TextField, TextFieldType, TextareaField } from "src/Form/TextField";
+'use client';
+import { TextField, TextFieldType, TextareaField } from "@/Form/TextField";
 import styles from "./style.module.css";
 import { Fragment, useEffect, useState } from "react";
-import { useForm } from "src/Form/useForm";
+import { useForm } from "@/Form/useForm";
 import { QR } from "react-qr-rounded";
-import { SelectButtons } from "src/Form/SelectButtons";
-import { Dropdown } from "src/components/Dropdown";
-import useMediaQuery from "src/hooks/useMediaQuery";
-import { Layout } from "src/components/Layout";
-import { Button, TypeButton } from "src/Form/Button";
+import { SelectButtons } from "@/Form/SelectButtons";
+import { Dropdown } from "@/components/Dropdown";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { Layout } from "@/components/Layout";
+import { Button, TypeButton } from "@/Form/Button";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -32,7 +32,7 @@ const Page = () => {
   ];
 
   return (
-    <Layout>
+    <Fragment>
       <div className={styles.msgWrapper}>
         <p>Теперь вы можете поддержать любимого стримера через криптовалюту, нажмите кнопку рядом чтобы получить больше информации.</p>
         <Button type={TypeButton.secondary} onClick={() => router.push('/articles/how-it-is-works?')}>
@@ -111,7 +111,7 @@ const Page = () => {
         </div>
         <Dropdown arrayInfo={arrayFaq} />
       </div>
-    </Layout>
+    </Fragment>
   );
 };
 
