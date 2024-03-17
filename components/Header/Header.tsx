@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './header.module.css';
+import { Button, ButtonSize } from 'src/Form/Button';
 
 export const Header = () => {
     return (
@@ -11,6 +12,9 @@ export const Header = () => {
                 <Link href="/articles/quickstart" className={styles.link}>
                     Quick start
                 </Link>
+                <Button type="tertiary" size={ButtonSize.small}>
+                    Войти
+                </Button>
             </div>
         </div>
     )

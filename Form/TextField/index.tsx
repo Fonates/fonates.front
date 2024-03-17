@@ -11,6 +11,7 @@ interface TextFieldProps {
     fieldName?: string;
     formName: string;
     type?: TextFieldProps | string;
+    disabled?: boolean;
     setForm: (formName: string, value: string) => void;
     inputProps?: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 }
@@ -66,8 +67,8 @@ export const TextField = (props: TextFieldProps) => {
     return (
         <div className={styles.wrapper}>
             {props.fieldName && <span>{props.fieldName}</span>}
-            <div className={`${styles.textFieldWrapper} ${isFocus && styles.textFieldWrapperFocus}`}>
-                <input ref={refTextField} type="text" value={value} onChange={(event) => handleChangeValue(event.target.value)} {...props.inputProps}/>
+            <div className={`${styles.textFieldWrapper} ${isFocus && styles.textFieldWrapperFocus} ${props.disabled ? styles.disabled : ''}`}>
+                <input ref={refTextField} type="text" value={value} onChange={(event) => handleChangeValue(event.target.value)} disabled={props.disabled} {...props.inputProps}/>
                 {props.valueName && (
                     <span className={styles.valueName}>
                         {props.valueName}

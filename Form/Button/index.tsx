@@ -7,17 +7,26 @@ export enum TypeButton {
       accentBorder = "accent_border",
 }
 
+export enum ButtonSize {
+      small = "small",
+      medium = "medium",
+}
+
 interface IButton {
       type: TypeButton | string;
       onClick?: () => void;
+      size?: ButtonSize;
       style?: React.CSSProperties;
       children: React.ReactNode;
+      disabled?: boolean;
 }
 
 export const Button = (props: IButton) => {
+      const { size = ButtonSize.medium, disabled = false } = props;
+
       return (
             <button
-                  className={`${styles.button} ${styles[props.type]}`}
+                  className={`${styles.button} ${styles[size]} ${styles[props.type]} ${disabled ? styles.disabled : ''}`}
                   onClick={props.onClick}
                   style={props.style}
             >

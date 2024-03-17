@@ -14,12 +14,27 @@ import { CopyField } from "src/Form/CopyField";
 const BASE_URL = "https://fonates.com/donates/<wallet_address>";
 
 const Page = () => {
+  const router = useRouter();
   const { form, setFormValue } = useForm();
   const [link, setLink] = useState(BASE_URL);
   const [isCopy, setIsCopy] = useState(false);
+  const [isGenerated, setIsGenerated] = useState(false);
   const isMobileWidth = useMediaQuery("(max-width: 768px)");
-  const router = useRouter();
-  const isDisabledLink = (form?.address == '' || !form?.address) || (form?.username == '' || !form?.username);
+
+  const isUserAddress = form?.address != '' && form?.address;
+
+  const isDisabledLink = (
+      (form?.address == '' || !form?.address) ||
+      (form?.username == '' || !form?.username) ||
+      !isGenerated
+  );
+
+  const onCopy = () => setIsCopy(true);
+
+  function handleGenerateLink() {
+      if (isDisabledLink) return;
+      setIsGenerated(true);
+  }
 
   useEffect(() => {
       if (form?.address != '') {
@@ -29,16 +44,13 @@ const Page = () => {
       }
   }, [form])
 
-  const onCopy = () => {
-      setIsCopy(true);
-  }
-
   return (
     <Layout>
       <div className={styles.wrapper}>
             <div className={styles.form}>
                   <div className={styles.wrapperForm}>
                         <TextField
+                              disabled={!isUserAddress}
                               fieldName="Ваше имя (никнейм)"
                               formName="username"
                               setForm={setFormValue}
@@ -50,12 +62,22 @@ const Page = () => {
                         <TextField
                               fieldName="Адрес кошелька"
                               formName="address"
+                              disabled
                               setForm={setFormValue}
                               inputProps={{
                                     placeholder: "Введите адрес кошелька",
                                     name: "name",
                               }}
                         />
+                        {isUserAddress ? (
+                               <Button type={TypeButton.secondary} disabled={isGenerated || isDisabledLink} onClick={handleGenerateLink}>
+                                    Генерировать ссылку
+                              </Button>
+                        ) : (
+                              <Button type={TypeButton.secondary} onClick={handleGenerateLink}>
+                                    Подключить кошелек
+                              </Button>
+                        )}
                         <hr />
                         <div className={styles.linkWrapper}>
                               <CopyField value={link} onCopy={onCopy} disabled={isDisabledLink} fieldName="Ссылка на оплату" />
@@ -65,20 +87,20 @@ const Page = () => {
                   <div className={styles.wrapperForm} style={{ width: isMobileWidth ? '100%' : "fit-content" }}>
                         <div className={styles.qrWrapper}>
                               <QR
-                              color="#fff"
-                              backgroundColor="#17171900"
-                              rounding={100}
-                              width={273}
-                              height={273}
-                              // cutout
-                              // cutoutElement={<img
-                              //     src="https://random.imagecdn.app/500/500"
-                              //     style={{
-                              //         objectFit: "contain",
-                              //         width: "100%",
-                              //         height: "100%",
-                              //     }} />}
-                              errorCorrectionLevel="H"
+                                    color="#fff"
+                                    backgroundColor="#17171900"
+                                    rounding={100}
+                                    width={273}
+                                    height={273}
+                                    // cutout
+                                    // cutoutElement={<img
+                                    //     src="https://random.imagecdn.app/500/500"
+                                    //     style={{
+                                    //         objectFit: "contain",
+                                    //         width: "100%",
+                                    //         height: "100%",
+                                    //     }} />}
+                                    errorCorrectionLevel="H"
                               >
                                     {link}
                               </QR>
@@ -88,7 +110,7 @@ const Page = () => {
                         </span>
                   </div>
             </div>
-            {isCopy && (
+            {isGenerated && (
                   <div className={styles.msgWrapper}>
                         <p>Чтобы активировать ссылку установите плагин в OBS Studio</p>
                         <div className={styles.btnWrapper}>

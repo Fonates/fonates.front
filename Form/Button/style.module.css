@@ -8,7 +8,15 @@
       border-radius: 16px;
       cursor: pointer;
       transition: 0.3s ease-in-out;
+      user-select: none;
 }
+
+.small {
+      height: 40px !important;
+      max-height: 40px !important;
+      padding: 8px 26px !important;
+}
+
 
 @media screen and (min-width: 768px) {
       .button:hover {
@@ -30,6 +38,10 @@
             /* box-shadow: 0px 0px 0px 3px #1da5ff81; */
             /* transform: scale(1.02); */
             opacity: 0.8;
+      }      
+      .disabled:hover {
+            cursor: initial;
+            opacity: 0.5;
       }
 }
 
@@ -43,7 +55,6 @@
       color: #1DA3FF;
       font-size: 16px;
       font-weight: 500;
-      padding: 16px 32px;
       white-space: nowrap;
 }
 
@@ -52,7 +63,6 @@
       color: #1DA3FF;
       font-size: 16px;
       font-weight: 500;
-      padding: 16px 32px;
       white-space: nowrap;
 }
 
@@ -61,17 +71,23 @@
       color: #1DA3FF;
       font-size: 16px;
       font-weight: 500;
-      padding: 16px 32px;
       white-space: nowrap;
 }
 
 .accent_border {
       font-size: 16px;
       font-weight: 500;
-      padding: 16px 32px;
       white-space: nowrap;
       color: #1DA3FF;
       background-color: transparent;
       border: 1px solid #1DA3FF;
       backdrop-filter: blur(10px);
+}
+
+.disabled {
+      opacity: 0.5;
+}
+
+.disabled:active {
+      transform: scale(1);
 }
