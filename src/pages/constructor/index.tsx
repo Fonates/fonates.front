@@ -1,46 +1,73 @@
-import { TextField, TextFieldType, TextareaField } from "@/Form/TextField";
+import { TextField } from "@/Form/TextField";
 import styles from "./style.module.css";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "@/Form/useForm";
 import { QR } from "react-qr-rounded";
-import { SelectButtons } from "@/Form/SelectButtons";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { Layout } from "@/components/Layout";
 import { Button, TypeButton } from "@/Form/Button";
 import { useRouter } from "next/navigation";
 import { CopyField } from "@/Form/CopyField";
-import { useTonConnectModal } from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectModal } from "@tonconnect/ui-react";
+import ApiLinks from "@/API/links";
 
 const BASE_URL = "https://fonates.com/donates/<wallet_address>";
 
-const Page = () => {
+const apiLinks = new ApiLinks({
+      baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
+      headers: {},
+});
+
+const PageConstructor = () => {
   const router = useRouter();
   const { form, setFormValue } = useForm();
   const [link, setLink] = useState(BASE_URL);
   const [isCopy, setIsCopy] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
   const isMobileWidth = useMediaQuery("(max-width: 768px)");
-  const { state, open, close } = useTonConnectModal();
+  const tonAddress = useTonAddress();
+  const { open } = useTonConnectModal();
 
-  const isUserAddress = form?.address != '' && form?.address;
-
+  const isUserAddress = tonAddress == '' || !tonAddress;
+  const isUserName = form?.username == '' || !form?.username;
   const isDisabledLink = (
-      (form?.address == '' || !form?.address) ||
-      (form?.username == '' || !form?.username) ||
-      !isGenerated
+      isUserName ||
+      isUserAddress
   );
 
   const onCopy = () => setIsCopy(true);
 
-  function handleGenerateLink() {
+  async function handleGenerateLink() {
       if (isDisabledLink) return;
-      setIsGenerated(true);
+
+      const donateLink = new URL(BASE_URL.replace("<wallet_address>", form.address)).href;
+      const response = await apiLinks.GenerateLink({
+            address: form.address,
+            username: form.username,
+            link: donateLink,
+            status: "active",
+      });
+
+      if (response?.status == "ok") {
+            setLink(donateLink);
+            setIsGenerated(true);
+            return;
+      }
+
+      if (response?.link) {
+            setLink(response.link);
+            setIsGenerated(true);
+            return;
+      }
+  }
+
+  function downloadPlugin() {
+      const url = `${process.env.NEXT_PUBLIC_API_URL_V1}plugin/${tonAddress}/generate`;
+      console.log(url);
+      window.open(url, "_blank");
   }
 
   useEffect(() => {
-      if (form?.address != '') {
-        setLink(new URL(BASE_URL.replace("<wallet_address>", form.address)).href);
-      } else {
+      if (form?.address == '') {
         setLink(BASE_URL);
       }
   }, [form])
@@ -50,26 +77,29 @@ const Page = () => {
       <div className={styles.form}>
             <div className={styles.wrapperForm}>
                   <TextField
-                        disabled={!isUserAddress}
+                        disabled={isUserAddress}
                         fieldName="Ваше имя (никнейм)"
                         formName="username"
                         setForm={setFormValue}
+                        regExp={/^[a-zA-Zа-яА-Я0-9\s]+$/}
+                        maxChars={30}
                         inputProps={{
                               placeholder: "Введите ваше имя или никнейм",
                               name: "name",
                         }}
                   />
                   <TextField
+                        disabled
                         fieldName="Адрес кошелька"
                         formName="address"
-                        disabled
+                        value={tonAddress}
                         setForm={setFormValue}
                         inputProps={{
                               placeholder: "Введите адрес кошелька",
                               name: "name",
                         }}
                   />
-                  {isUserAddress ? (
+                  {!isUserAddress ? (
                         <Button type={TypeButton.secondary} disabled={isGenerated || isDisabledLink} onClick={handleGenerateLink}>
                               Генерировать ссылку
                         </Button>
@@ -80,8 +110,8 @@ const Page = () => {
                   )}
                   <hr />
                   <div className={styles.linkWrapper}>
-                        <CopyField value={link} onCopy={onCopy} disabled={isDisabledLink} fieldName="Ссылка на оплату" />
-                        <p>Ссылка для публикации в социальных сетях или на стриминговых сервисах</p>
+                        <CopyField value={link} onCopy={onCopy} disabled={isDisabledLink || !isGenerated} fieldName="Ссылка на оплату" />
+                        {/* <p>Ссылка для публикации в социальных сетях или на стриминговых сервисах</p> */}
                   </div>
             </div>
             <div className={styles.wrapperForm} style={{ width: isMobileWidth ? '100%' : "fit-content" }}>
@@ -117,7 +147,7 @@ const Page = () => {
                         <Button type={TypeButton.secondary} onClick={() => router.push('/articles/how-it-is-works?')}>
                               Как установить плагин в OBS?
                         </Button>
-                        <Button type={TypeButton.primary} onClick={() => router.push('/articles/how-it-is-works?')}>
+                        <Button type={TypeButton.primary} onClick={downloadPlugin}>
                               Скачать плагин
                         </Button>
                   </div>
@@ -127,4 +157,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default PageConstructor;

@@ -25,6 +25,12 @@
     color: white;
 }
 
+.logo > span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .logo:hover {
     color: white !important;
 }

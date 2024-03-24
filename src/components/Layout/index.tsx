@@ -4,16 +4,12 @@ import { Footer } from "../Footer/Footer";
 import { useTonAddress, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 
 export const Layout = ({ children }: { children: React.ReactNode | any }) => {
-    const [isMounted, setIsMounted] = useState(false);
+    const tonAddress = useTonAddress();
     const [tonConnectUI] = useTonConnectUI();
-
-    const tonWalletAddr = tonConnectUI?.wallet?.account.address;
-
-    console.log('tonWalletAddr', tonWalletAddr);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        tonConnectUI.connectionRestored.then((isConnected) => {
-            console.log('isConnected', isConnected);
+        tonConnectUI.connectionRestored.then(() => {
             setIsMounted(true);
         });
     }, [tonConnectUI])
@@ -25,7 +21,7 @@ export const Layout = ({ children }: { children: React.ReactNode | any }) => {
     return (
       <Fragment>
             <main>
-                <Header walletAddress={tonWalletAddr} />
+                <Header walletAddress={tonAddress} />
                 <div className="container">
                     {children}
                 </div>

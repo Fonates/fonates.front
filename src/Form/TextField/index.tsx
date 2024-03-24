@@ -10,8 +10,11 @@ interface TextFieldProps {
     valueName?: string;
     fieldName?: string;
     formName: string;
+    value?: string;
     type?: TextFieldProps | string;
     disabled?: boolean;
+    maxChars?: number;
+    regExp?: RegExp;
     setForm: (formName: string, value: string) => void;
     inputProps?: React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 }
@@ -19,9 +22,11 @@ interface TextFieldProps {
 export const TextField = (props: TextFieldProps) => {
     const refTextField: any = useRef(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(props.value || '');
 
     const handleChangeValue = (value: string) => {
+        if (props.maxChars && value.length > props.maxChars) return;
+
         if (props.type === TextFieldType.number) {
             // Если введенное значение начинается с 0, заменяем его на "0."
             if (value === '0') return setValue('0.');
@@ -35,6 +40,8 @@ export const TextField = (props: TextFieldProps) => {
             }
             return
         }
+
+        if (props.regExp && !value.match(props.regExp) && value != '') return;
 
         setValue(value);
     }

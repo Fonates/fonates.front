@@ -10,8 +10,15 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { Layout } from "@/components/Layout";
 import { Button, TypeButton } from "@/Form/Button";
 import { useRouter } from "next/navigation";
+import ApiLinks from "@/API/links";
+import { GetServerSideProps, NextPage } from "next";
 
-const Page = () => {
+interface IDonatePage {
+  username: string;
+  address: string;
+}
+
+const DonatePage: NextPage<IDonatePage> = (pageProps) => {
   const { form, setFormValue } = useForm();
   const isMobileWidth = useMediaQuery("(max-width: 768px)");
   const router = useRouter();
@@ -93,7 +100,7 @@ const Page = () => {
                fdskjfdksljfklj
              </QR>
            </div>
-           <h1 className={styles.username}>ThePetrushka</h1>
+           <h1 className={styles.username}>{pageProps.username}</h1>
            <span className={styles.qrHint}>
               Сканируйте QR код для отправки доната
            </span>
@@ -115,4 +122,35 @@ const Page = () => {
   );
 };
 
-export default Page;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { slug_donate } = context.params || {};
+
+  if (!slug_donate || slug_donate === '') {
+    return {
+      notFound: true,
+    }
+  }
+
+  const api = new ApiLinks({
+    baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
+    headers: {},
+  });
+
+  const walletAddress = slug_donate as string;
+  const response = await api.GetLinkByAddress(walletAddress);
+
+  if (!response || response?.error) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      username: response.username,
+      address: response.address,
+    },
+  }
+};
+
+export default DonatePage;
