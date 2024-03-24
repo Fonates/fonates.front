@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create .env.production
+        env:
+          PRODUCTION_ENV_VARS: ${{ secrets.PRODUCTION_ENV_VARS }}
+        run: echo "$PRODUCTION_ENV_VARS" > ${{ github.workspace }}/.env.production
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
