@@ -1,4 +1,3 @@
-'use client';
 import { TextField, TextFieldType, TextareaField } from "@/Form/TextField";
 import styles from "./style.module.css";
 import { Fragment, useEffect, useState } from "react";
@@ -12,16 +11,62 @@ import { Button, TypeButton } from "@/Form/Button";
 import { useRouter } from "next/navigation";
 import ApiLinks from "@/API/links";
 import { GetServerSideProps, NextPage } from "next";
+import { Address, Builder, Cell, beginCell } from "@ton/core";
 
 interface IDonatePage {
   username: string;
   address: string;
 }
 
+export type Donate = {
+  $$type: 'Donate';
+  to: Address;
+  text: string;
+  value: number | bigint;
+}
+
+
+export function storeDonate(src: Donate) {
+  return (builder: Builder) => {
+      let b_0 = builder;
+      b_0.storeUint(2018962093, 32);
+      b_0.storeAddress(src.to);
+      b_0.storeStringRefTail(src.text);
+      b_0.storeInt(src.value, 257);
+  };
+}
+
+function toBase64Url(base64String: string) {
+    return base64String
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+}
+
 const DonatePage: NextPage<IDonatePage> = (pageProps) => {
   const { form, setFormValue } = useForm();
   const isMobileWidth = useMediaQuery("(max-width: 768px)");
   const router = useRouter();
+
+  const amount = Number(form.amount || 0) * 10 ** 9;
+
+  const danate: Donate = {
+    $$type: 'Donate',
+    to: Address.parse(pageProps.address),
+    text: `ton.fonates|${form.name}|${form.comment}` || '',
+    value: amount,
+  }
+
+  console.log(danate, pageProps.address)
+
+  const body = beginCell().
+    store(storeDonate(danate)).
+    endCell().
+    toBoc().
+    toString('base64');
+
+  const deeplink = `ton://transfer/${'EQCUed4SHlw2Cr2SWywVvmOytRGCfHZXw5ORtz1njNuEUNhf'}?amount=${amount}&bin=${toBase64Url(body)}`;
+  console.log(deeplink)
 
   const arrayFaq = [
     {
@@ -97,7 +142,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
                //     }} />}
                errorCorrectionLevel="H"
              >
-               fdskjfdksljfklj
+               {deeplink}
              </QR>
            </div>
            <h1 className={styles.username}>{pageProps.username}</h1>

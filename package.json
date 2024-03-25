@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ton/core": "^0.56.2",
     "@tonconnect/ui-react": "^2.0.0",
     "axios": "^1.6.8",
     "framer-motion": "^11.0.8",
