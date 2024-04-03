@@ -2,9 +2,9 @@
       display: flex;
       padding: 12px 16px;
       justify-content: space-between;
-      background-color: #171719;
+      background-color: #F2F2F2;
       border-radius: 12px;
-      height: 100%;
+      /* height: 100%; */
       cursor: pointer;
       user-select: none;
 
@@ -34,7 +34,7 @@
 .copyField > span {
       font-size: 14px;
       font-weight: 400;
-      color: #fff;
+      color: #696969;
 }
 
 .iconWrapper {
@@ -45,6 +45,10 @@
       cursor: pointer;
       transition: 0.3s;
       opacity: 0.5;
+}
+
+.iconWrapper > svg path {
+      fill: #696969;
 }
 
 .animation::before {
@@ -70,7 +74,7 @@
       top: 1px;
       width: calc(100% - 2px);
       height: calc(100% - 2px);
-      background: #171719;
+      background: #F2F2F2;
       border-radius: 12px;
   }
 
@@ -112,10 +116,6 @@
   .disabled > .wrapper {
       cursor: default;
   }
-
-  .disabled > .wrapper > .iconWrapper {
-            opacity: 0.3;
-      }
 
     @media screen and (min-width: 768px) {
       .wrapper:hover .iconWrapper {

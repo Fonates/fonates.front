@@ -1,18 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('./colors.css');
+
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url("../../public/fonts/SFProDisplay/SFPRODISPLAYMEDIUM.OTF") format("opentype");
+}
+
+@font-face {
+    font-family: 'SF Pro Display';
+    font-weight: bold;
+    src: url("../../public/fonts/SFProDisplay/SFPRODISPLAYBOLD.OTF") format("opentype");
+}
 
 html {
-    background: radial-gradient(
-        175.96% 83.36% at 2.38% 8.15%,
-        rgba(29, 163, 255, 0.2) 0%,
-        rgba(0, 0, 0, 0) 100%
-      ),
-      #131313;
-      min-height: 100vh;
-      color: white;
+    min-height: 100vh;
+    background-color: var(--background-main);
 }
 
 body {
-    background: radial-gradient(120.18% 45.31% at 50% 100%, rgba(29, 163, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%), radial-gradient(169.47% 76.5% at 50% -18.89%, rgba(29, 163, 255, 0.10) 0%, rgba(0, 0, 0, 0.00) 100%), #060606;
     min-height: 100vh;
     display: flex;
 }
@@ -22,10 +26,14 @@ body {
     padding: 0;
     box-sizing: border-box;
 
-    font-family: "Noto Sans Display", sans-serif;
+    font-family: 'SF Pro Display', 'Inter', sans-serif;
     font-style: normal;
     -webkit-tap-highlight-color: transparent;
-    color: white;
+    color: var(--text-primary);
+}
+
+a {
+    text-decoration: none;
 }
 
 button {
@@ -38,21 +46,6 @@ input, textarea {
     outline: none;
     letter-spacing: normal;
 }
-
-a {
-    text-decoration: none;
-    color: #1DA3FF;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #3eb2ff !important;
-}
-
-a:active {
-    transform: scale(0.95);
-}
-
 
 main {
     width: 920px;
@@ -81,8 +74,7 @@ hr {
     display: block;
     width: 100%;
     height: 0.5px;
-    background-color: #3838387b;
-    margin: 20px 0;
+    background-color: var(--separator);
     outline: none;
     border: none;
 }

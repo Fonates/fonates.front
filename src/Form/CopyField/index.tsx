@@ -1,10 +1,11 @@
 import LazyBackgroundImage from "@/components/LazyBackgroundImage";
 import styles from "./style.module.css";
 import { useState } from "react";
+import IconCopyDoc from "@/assets/icons/doc.on.doc.svg";
 
 interface ICopyContainer {
       value: string;
-      fieldName: string; 
+      fieldName?: string; 
       onCopy?: () => void;
       disabled?: boolean;
 }
@@ -37,7 +38,7 @@ export const CopyField = (props: ICopyContainer) => {
                   <div className={`${styles.wrapper} ${isAnimation && styles.animation}`} onClick={handleCopy}>
                         <span>{props.value}</span>
                         <div className={styles.iconWrapper}>
-                              <LazyBackgroundImage img={'/icons/copy.svg'} style={{ width: '100%', height: '24px'}} />
+                              <IconCopyDoc />
                         </div>
                   </div>
             </div>

@@ -1,43 +1,60 @@
 .button {
-      background-color: #111B20;
-      color: #111B20;
+      position: relative;
+      box-shadow: 0 0 12px 0 rgba(32, 162, 255, 0.5);
+      background: linear-gradient(135deg, #1d9eff 0%, #0881ff 100%);
+      color: var(--button-text-primary);
       font-size: 16px;
-      font-weight: 500;
-      padding: 16px 32px;
+      padding: 8px 16px;
       white-space: nowrap;
-      border-radius: 16px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: 0.3s ease-in-out;
       user-select: none;
+      overflow: hidden;
+      z-index: 1;
 }
+
+.button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #71c2ff 0%, #0881ff 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      z-index: -1;
+    }
 
 .small {
-      height: 40px !important;
-      max-height: 40px !important;
-      padding: 8px 26px !important;
+
 }
 
+.medium {
+      min-height: 44px;
+}
 
 @media screen and (min-width: 768px) {
-      .button:hover {
+      .button:hover::before {
             /* box-shadow: 0px 0px 0px 3px #1da5ff81; */
             /* transform: scale(1.02); */
-            opacity: 0.8;
+            opacity: 1;
+            /* background: linear-gradient(135deg, #71c2ff 0%, #0881ff 100%); */
       }
-      .primary:hover {
+      .primary:hover::before {
             /* box-shadow: 0px 0px 0px 3px #1da5ff81; */
             /* transform: scale(1.02); */
-            opacity: 0.8;
+            opacity: 1;
+            /* background: linear-gradient(135deg, #71c2ff 0%, #0881ff 100%); */
       }
       .secondary:hover {
-            box-shadow: 0px 0px 0px 1px #111B20;
             /* transform: scale(1.02); */
-            opacity: 0.8;
+            /* opacity: 0.8; */
       }
       .tertiary:hover {
             /* box-shadow: 0px 0px 0px 3px #1da5ff81; */
             /* transform: scale(1.02); */
-            opacity: 0.8;
+            /* opacity: 0.8; */
       }      
       .disabled:hover {
             cursor: initial;
@@ -51,24 +68,18 @@
 }
 
 .primary {
-      background-color: #fff;
-      color: #1DA3FF;
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
 }
 
 .secondary {
-      background-color: #111B20;
-      color: #1DA3FF;
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
 }
 
 .tertiary {
-      background-color: #111B20;
-      color: #1DA3FF;
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
@@ -78,10 +89,6 @@
       font-size: 16px;
       font-weight: 500;
       white-space: nowrap;
-      color: #1DA3FF;
-      background-color: transparent;
-      border: 1px solid #1DA3FF;
-      backdrop-filter: blur(10px);
 }
 
 .disabled {

@@ -1,7 +1,7 @@
 .mainInfo {
    display: flex;
    flex-direction: column;
-   gap: 40px;  
+   gap: 24px;  
    align-items: center;
    margin-top: 15%;
    flex: 1;
@@ -22,7 +22,7 @@
 .title > h1 {
       font-size: 96px;
       font-weight: 700;
-      background: linear-gradient(90deg, #FFE9BE -0.43%, #1DA3FF 94.3%);
+      background: linear-gradient(90deg, #ffd788 -0.43%, #57bcff 94.3%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -36,7 +36,7 @@
 }
 
 .title > p {
-      font-size: 32px;
+      font-size: 24px;
       text-align: center;
       font-weight: 400;
 

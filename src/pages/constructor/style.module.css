@@ -1,11 +1,8 @@
 .wrapperForm {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      padding: 24px;
-      background-color: #000;
-      border-radius: 20px;
-      width: 100%;
+      min-width: 477px;
+      gap: 20px;
 }
 
 .form {
@@ -108,10 +105,16 @@
 .qrWrapper {
       padding: 25px;
       border-radius: 12px;
-      background-color: #171719;
+      background-color: #F2F2F2;
       display: flex;
       align-items: center;
       justify-content: center;
+}
+
+.qrCodeWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
 }
 
 .qrHint {
@@ -119,6 +122,8 @@
       color: #383838;
       font-size: 18px;
       font-weight: 400;
+      display: block;
+      width: 100%;
 }
 
 .username {
@@ -154,4 +159,22 @@
       text-align: center;
       margin-top: 40px;
       margin-bottom: 60px;
+}
+
+.wrapperInfo {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+}
+
+.infoTitle {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+}
+
+.wpTitle {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
 }

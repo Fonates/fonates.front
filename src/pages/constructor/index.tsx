@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { useForm } from "@/Form/useForm";
 import { QR } from "react-qr-rounded";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { Button, TypeButton } from "@/Form/Button";
+import { Button, ButtonSize, TypeButton } from "@/Form/Button";
 import { useRouter } from "next/navigation";
 import { CopyField } from "@/Form/CopyField";
 import { useTonAddress, useTonConnectModal } from "@tonconnect/ui-react";
 import ApiLinks from "@/API/links";
+import { Wrapper } from "@/components/Wrapper";
 
 const BASE_URL = "https://fonates.com/donates/<wallet_address>";
 
@@ -41,7 +42,7 @@ const PageConstructor = () => {
 
       const donateLink = new URL(BASE_URL.replace("<wallet_address>", form.address)).href;
       const response = await apiLinks.GenerateLink({
-            address: form.address,
+            address: tonAddress,
             username: form.username,
             link: donateLink,
             status: "active",
@@ -74,85 +75,77 @@ const PageConstructor = () => {
 
   return (
       <div className={styles.wrapper}>
-      <div className={styles.form}>
-            <div className={styles.wrapperForm}>
-                  <TextField
-                        disabled={isUserAddress}
-                        fieldName="Ваше имя (никнейм)"
-                        formName="username"
-                        setForm={setFormValue}
-                        regExp={/^[a-zA-Zа-яА-Я0-9\s]+$/}
-                        maxChars={30}
-                        inputProps={{
-                              placeholder: "Введите ваше имя или никнейм",
-                              name: "name",
-                        }}
-                  />
-                  <TextField
-                        disabled
-                        fieldName="Адрес кошелька"
-                        formName="address"
-                        value={tonAddress}
-                        setForm={setFormValue}
-                        inputProps={{
-                              placeholder: "Введите адрес кошелька",
-                              name: "name",
-                        }}
-                  />
-                  {!isUserAddress ? (
-                        <Button type={TypeButton.secondary} disabled={isGenerated || isDisabledLink} onClick={handleGenerateLink}>
-                              Генерировать ссылку
-                        </Button>
-                  ) : (
-                        <Button type={TypeButton.secondary} onClick={open}>
-                              Подключить кошелек
-                        </Button>
-                  )}
-                  <hr />
-                  <div className={styles.linkWrapper}>
-                        <CopyField value={link} onCopy={onCopy} disabled={isDisabledLink || !isGenerated} fieldName="Ссылка на оплату" />
-                        {/* <p>Ссылка для публикации в социальных сетях или на стриминговых сервисах</p> */}
+            <div className={styles.wpTitle}>
+                  <h2>Состояние ссылки</h2>
+                  <div className={styles.form}>
+                        <Wrapper cs={styles.wrapperForm}>
+                              <TextField
+                                    disabled={isUserAddress}
+                                    fieldName="Ваше имя (никнейм)"
+                                    formName="username"
+                                    setForm={setFormValue}
+                                    regExp={/^[a-zA-Zа-яА-Я0-9\s]+$/}
+                                    maxChars={30}
+                                    inputProps={{
+                                          placeholder: "Введите ваше имя или никнейм",
+                                          name: "name",
+                                    }}
+                              />
+                              <CopyField value={tonAddress || 'Ваш адрес кошелька'} onCopy={onCopy} disabled={isUserAddress} fieldName="Адрес кошелька" />
+                              {!isUserAddress ? (
+                                    <Button type={TypeButton.secondary} size={ButtonSize.medium} disabled={isGenerated || isDisabledLink} onClick={handleGenerateLink}>
+                                          Генерировать ссылку
+                                    </Button>
+                              ) : (
+                                    <Button type={TypeButton.secondary} size={ButtonSize.medium} onClick={open}>
+                                          Подключить кошелек
+                                    </Button>
+                              )}
+                              <hr />
+                              <div className={styles.linkWrapper}>
+                                    <CopyField value={link} onCopy={onCopy} disabled={isDisabledLink || !isGenerated} fieldName="Ссылка на оплату" />
+                                    {/* <p>Ссылка для публикации в социальных сетях или на стриминговых сервисах</p> */}
+                              </div>
+                        </Wrapper>
+                        <Wrapper cs={styles.qrCodeWrapper}>
+                              <div className={styles.qrWrapper}>
+                                    <QR
+                                          color="#000"
+                                          backgroundColor="#17171900"
+                                          rounding={100}
+                                          width={273}
+                                          height={273}
+                                          // cutout
+                                          // cutoutElement={<img
+                                          //     src="https://random.imagecdn.app/500/500"
+                                          //     style={{
+                                          //         objectFit: "contain",
+                                          //         width: "100%",
+                                          //         height: "100%",
+                                          //     }} />}
+                                          errorCorrectionLevel="H"
+                                    >
+                                          {link}
+                                    </QR>
+                              </div>
+                              <span className={styles.qrHint}>
+                                    Вы можете скачать QR-код для публикации в социальных сетях
+                              </span>
+                        </Wrapper>
                   </div>
             </div>
-            <div className={styles.wrapperForm} style={{ width: isMobileWidth ? '100%' : "fit-content" }}>
-                  <div className={styles.qrWrapper}>
-                        <QR
-                              color="#fff"
-                              backgroundColor="#17171900"
-                              rounding={100}
-                              width={273}
-                              height={273}
-                              // cutout
-                              // cutoutElement={<img
-                              //     src="https://random.imagecdn.app/500/500"
-                              //     style={{
-                              //         objectFit: "contain",
-                              //         width: "100%",
-                              //         height: "100%",
-                              //     }} />}
-                              errorCorrectionLevel="H"
-                        >
-                              {link}
-                        </QR>
+            {isGenerated && (
+                  <div className={styles.wpTitle}>
+                        <h2>Состояние ссылки</h2>
+                        <Wrapper cs={styles.wrapperInfo}>
+                              <div className={styles.infoTitle}>
+                                    <h3>Интеграция в OBS Studio</h3>
+                                    <p>Установите данную ссылку в OBS Studio или сториню программу для стрименга - используйте новый поток данных как Браузер, и установите ссылку.</p>
+                              </div>
+                              <CopyField value={`https://fonates.com/plugin/${tonAddress}/alerts`} onCopy={onCopy} />
+                        </Wrapper>
                   </div>
-                  <span className={styles.qrHint}>
-                        Вы можете скачать QR-код для публикации в социальных сетях
-                  </span>
-            </div>
-      </div>
-      {isGenerated && (
-            <div className={styles.msgWrapper}>
-                  <p>Чтобы активировать ссылку установите плагин в OBS Studio</p>
-                  <div className={styles.btnWrapper}>
-                        <Button type={TypeButton.secondary} onClick={() => router.push('/articles/how-it-is-works?')}>
-                              Как установить плагин в OBS?
-                        </Button>
-                        <Button type={TypeButton.primary} onClick={downloadPlugin}>
-                              Скачать плагин
-                        </Button>
-                  </div>
-            </div>
-      )}
+            )}
       </div>
   );
 };

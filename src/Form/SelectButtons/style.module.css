@@ -14,31 +14,33 @@
 .wrapperSelectButtons > span {
       font-size: 14px;
       font-weight: 400;
+      color: #696969;
 }
 
 
 .button {
-      background-color: #171719;
-      border-radius: 16px;
-      height: 48px;
-      padding: 0px 16px;
+      background-color: #FFFFFF;
+      border-radius: 12px;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
       font-size: 16px;
       font-weight: 500;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.3s background-color;
       user-select: none;
-      border: 1px solid transparent;
+      border: 1px solid #EFEFEF;
       white-space: nowrap;
       flex: 1;
       justify-content: center;
+      box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.02);
 }
 
 .active {
-      background-color: #111B20;
-      color: #1DA3FF;
-      border: 1px solid #1DA3FF;
+      box-shadow: 0 0 12px 0 rgba(32, 162, 255, 0.5);
+      background: linear-gradient(135deg, #1d9eff 0%, #0881ff 100%);
+      color: white;
+      border: 1px solid transparent;
       flex: 1;
 }
 

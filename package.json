@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@ton/core": "^0.56.2",
     "@tonconnect/ui-react": "^2.0.0",
     "axios": "^1.6.8",

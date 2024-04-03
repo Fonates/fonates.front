@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.1);
+    background: linear-gradient(180deg, #ececec 0%, #fafafa 100%);
+    padding: 10px;
+    border-radius: 16px;
+}
+
+.wrapperContent {
+    flex: 1;
+    background-color: var(--background-card);
+    border-radius: 16px;
+    padding: 24px;
+}

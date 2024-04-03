@@ -1,17 +1,17 @@
-import { TextField, TextFieldType, TextareaField } from "@/Form/TextField";
+import { TextField, TextareaField } from "@/Form/TextField";
 import styles from "./style.module.css";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { useForm } from "@/Form/useForm";
-import { QR } from "react-qr-rounded";
 import { SelectButtons } from "@/Form/SelectButtons";
 import { Dropdown } from "@/components/Dropdown";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { Layout } from "@/components/Layout";
-import { Button, TypeButton } from "@/Form/Button";
+import { Button, ButtonSize, TypeButton } from "@/Form/Button";
 import { useRouter } from "next/navigation";
 import ApiLinks from "@/API/links";
 import { GetServerSideProps, NextPage } from "next";
-import { Address, Builder, Cell, beginCell } from "@ton/core";
+import { Address, Builder, beginCell } from "@ton/core";
+import { Wrapper } from "@/components/Wrapper";
+import Link from "next/link";
 
 interface IDonatePage {
   username: string;
@@ -57,8 +57,6 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
     value: amount,
   }
 
-  console.log(danate, pageProps.address)
-
   const body = beginCell().
     store(storeDonate(danate)).
     endCell().
@@ -70,8 +68,8 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
 
   const arrayFaq = [
     {
-      name: "Как пополнить баланс?",
-      value: "Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: новая модель организационной деятельности однозначно фиксирует необходимость переосмысления внешнеэкономических политик. Прежде всего, постоянный количественный рост и сфера нашей активности обеспечивает широкому кругу (специалистов) участие в формировании прогресса.",
+      name: "Установка кошелька",
+      value: "Загрузите и установите мобильную версию кошелька; Перейдите в App Store или Google Play на своём мобильном устройстве и найдите приложение Tonkeeper. Скачайте и установите его на своё устройство.",
     },
     {
       name: "Как вывести средства?",
@@ -85,82 +83,64 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
 
   return (
     <Fragment>
-      <div className={styles.msgWrapper}>
-        <p>Теперь вы можете поддержать любимого стримера через криптовалюту, нажмите кнопку рядом чтобы получить больше информации.</p>
-        <Button type={TypeButton.secondary} onClick={() => router.push('/articles/how-it-is-works?')}>
-          Как это работает?
-        </Button>
-      </div>
       <div className={styles.wrapper}>
-        <div className={styles.wrapperForm}>
+        <Wrapper cs={styles.wrapperForm}>
           <div className={styles.amountWrapper}>
-            <SelectButtons
-              arrayValues={[5, 10, 25, 50]}
-              nameValue="TON"
+              <SelectButtons
+                arrayValues={[5, 10, 25, 50]}
+                nameValue="TON"
+                setForm={setFormValue}
+                fieldName="Сумма доната"
+                formName="amount"
+              />
+            </div>
+            <TextField
+              fieldName="Имя"
+              formName="name"
               setForm={setFormValue}
-              fieldName="Сумма доната"
-              formName="amount"
+              inputProps={{
+                placeholder: "Введите ваше имя",
+                name: "name",
+              }}
             />
-          </div>
-          <TextField
-            fieldName="Имя"
-            formName="name"
-            setForm={setFormValue}
-            inputProps={{
-              placeholder: "Введите ваше имя",
-              name: "name",
-            }}
-          />
-          <TextareaField
-            fieldName="Коментарий"
-            maxLength={250}
-            formName="comment"
-            setForm={setFormValue}
-            inputProps={{
-              placeholder: "Введите коментарий",
-              name: "comment",
-              rows: 5,
-            }}
-          />
-        </div>
+            <TextareaField
+              fieldName="Коментарий"
+              maxLength={250}
+              formName="comment"
+              setForm={setFormValue}
+              inputProps={{
+                placeholder: "Введите коментарий",
+                name: "comment",
+                rows: 5,
+              }}
+            />
+        </Wrapper>
         {!isMobileWidth && (
-           <div className={styles.wrapperForm} style={{ width: "fit-content" }}>
-           <div className={styles.qrWrapper}>
-             <QR
-               color="#fff"
-               backgroundColor="#17171900"
-               rounding={100}
-               width={273}
-               height={273}
-               // cutout
-               // cutoutElement={<img
-               //     src="https://random.imagecdn.app/500/500"
-               //     style={{
-               //         objectFit: "contain",
-               //         width: "100%",
-               //         height: "100%",
-               //     }} />}
-               errorCorrectionLevel="H"
-             >
-               {deeplink}
-             </QR>
-           </div>
-           <h1 className={styles.username}>{pageProps.username}</h1>
-           <span className={styles.qrHint}>
-              Сканируйте QR код для отправки доната
-           </span>
-         </div>
+          <Wrapper cs={styles.userInfo}>
+            <div className={styles.userInfoContent}>
+              <h2>{pageProps.username}</h2>
+              <p>Теперь вы можете поддержать любимого стримера через криптовалюту</p>
+            </div>
+            <div className={styles.avatar}>
+              <span>{String(pageProps.username)[0].toUpperCase()}</span>
+            </div>
+            <div className={styles.donatesButton}>
+              <Button
+                type={TypeButton.primary}
+                onClick={() => router.push(deeplink)}
+                size={ButtonSize.medium}
+                style={{ width: "100%" }}
+              >
+                Поддержать
+              </Button>
+              <Link href={'/articles/how-it-is-works'}>
+                Как это работает?
+              </Link>
+            </div>
+         </Wrapper>
         )}
       </div>
-      <div className={styles.wrapper}>
-        <p className={styles.info}>Теперь вы можете поддержать любимого стримера через криптовалюту, прокрутите вниз для получения информации.</p>
-      </div>
       <div className={styles.wrapperFaq}>
-        <div className={styles.titleFaq}>
-          <span></span>
-          <h1>FAQ</h1>
-          <span></span>
-        </div>
         <Dropdown arrayInfo={arrayFaq} />
       </div>
     </Fragment>
