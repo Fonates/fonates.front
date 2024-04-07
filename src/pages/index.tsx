@@ -15,7 +15,7 @@ const Page = () => {
         </div>
         <Button 
           type={TypeButton.accentBorder}
-          onClick={() => router.push('/articles/how-it-is-works?')} 
+          onClick={() => router.push('/articles/quick')} 
           style={{ width: 'fit-content' }}
         >
           Быстрый старт
