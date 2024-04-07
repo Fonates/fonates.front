@@ -70,6 +70,25 @@ main {
     flex-direction: column;
 }
 
+.article h1 {
+    font-weight: 700;
+    font-size: 50px;
+    margin-top: 24px;
+}
+
+.article h3 {
+    font-weight: 700;
+    font-size: 36px;
+    margin-top: 24px;
+}
+
+.article p, a {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 160%;
+    color: #414141;
+}
+
 hr {
     display: block;
     width: 100%;

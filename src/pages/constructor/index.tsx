@@ -79,7 +79,7 @@ const PageConstructor = () => {
                   <h2>Состояние ссылки</h2>
                   <div className={styles.form}>
                         <Wrapper cs={styles.wrapperForm}>
-                              <TextField
+                              {/* <TextField
                                     disabled={isUserAddress}
                                     fieldName="Ваше имя (никнейм)"
                                     formName="username"
@@ -90,8 +90,9 @@ const PageConstructor = () => {
                                           placeholder: "Введите ваше имя или никнейм",
                                           name: "name",
                                     }}
-                              />
-                              <CopyField value={tonAddress || 'Ваш адрес кошелька'} onCopy={onCopy} disabled={isUserAddress} fieldName="Адрес кошелька" />
+                              /> */}
+                              <CopyField value={tonAddress || 'Ваше имя (никнейм)'} onCopy={onCopy} disabled={isUserAddress} fieldName="Никнейм" />
+                              <CopyField value={tonAddress || 'Адрес кошелька'} onCopy={onCopy} disabled={isUserAddress} fieldName="Адрес кошелька" />
                               {!isUserAddress ? (
                                     <Button type={TypeButton.secondary} size={ButtonSize.medium} disabled={isGenerated || isDisabledLink} onClick={handleGenerateLink}>
                                           Генерировать ссылку
