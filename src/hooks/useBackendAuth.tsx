@@ -65,7 +65,7 @@ export function useBackendAuth() {
                 }
             })
         } else {
-            alert('Please try another wallet');
+            console.error('Try another wallet')
             tonConnectUI.disconnect();
         }
 
