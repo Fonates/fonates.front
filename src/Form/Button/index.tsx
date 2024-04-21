@@ -27,7 +27,7 @@ export const Button = (props: IButton) => {
       return (
             <button
                   className={`${styles.button} ${styles[size]} ${styles[props.type]} ${disabled ? styles.disabled : ''}`}
-                  onClick={props.onClick}
+                  onClick={props.disabled ? () => {} : props.onClick}
                   style={props.style}
             >
                   {props.children}

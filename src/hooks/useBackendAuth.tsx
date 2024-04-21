@@ -1,10 +1,12 @@
 import ApiTonAuth from "@/API/auth";
 import { BackendTokenContext } from "@/contexts/backendTokenContext";
 import { useIsConnectionRestored, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
+import { getCookie, setCookie } from "cookies-next";
 import { useContext, useEffect, useRef } from "react";
 
-const localStorageKey = 'my-dapp-auth-token';
+export const CookiesStoreKeyAuth = 'my-dapp-auth-token';
 const payloadTTLMS = 1000 * 60 * 20;
+const TTLMS_TEN_YEARS = 1000 * 60 * 60 * 24 * 365 * 10;
 
 const backendAuth = new ApiTonAuth({
     baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
@@ -26,7 +28,7 @@ export function useBackendAuth() {
         clearInterval(interval.current);
 
         if (!wallet) {
-            localStorage.removeItem(localStorageKey);
+            
             setToken(null);
 
             const refreshPayload = async () => {
@@ -47,7 +49,7 @@ export function useBackendAuth() {
             return;
         }
 
-        const token = localStorage.getItem(localStorageKey);
+        const token = getCookie(CookiesStoreKeyAuth) as string;
         if (token) {
             setToken(token);
             return;
@@ -56,9 +58,9 @@ export function useBackendAuth() {
         if (wallet.connectItems?.tonProof && !('error' in wallet.connectItems.tonProof)) {
             backendAuth.CheckProof(wallet.connectItems.tonProof.proof, wallet.account).then(result => {
                 if (result) {
-                    console.log('CheckProof', result)
                     setToken(result);
-                    localStorage.setItem(localStorageKey, result);
+                    setCookie(CookiesStoreKeyAuth, result, { path: '/', expires: new Date(Date.now() + payloadTTLMS)});
+                    window.location.reload();
                 } else {
                     alert('Please try another wallet');
                     tonConnectUI.disconnect();

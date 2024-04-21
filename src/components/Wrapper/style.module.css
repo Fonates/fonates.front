@@ -4,6 +4,7 @@
     background: linear-gradient(180deg, #ececec 0%, #fafafa 100%);
     padding: 10px;
     border-radius: 16px;
+    width: 100%;
 }
 
 .wrapperContent {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export const useForm = () => {
-      const [form, setForm]: any = useState({});
+export const useForm = (preloadData?: any) => {
+      const [form, setForm]: any = useState(preloadData || {});
 
       const setFormValue = (name: string, value: string) => {
           setForm({

@@ -8,6 +8,7 @@ interface ICopyContainer {
       fieldName?: string; 
       onCopy?: () => void;
       disabled?: boolean;
+      className?: string | any;
 }
 
 export const CopyField = (props: ICopyContainer) => {
@@ -33,7 +34,7 @@ export const CopyField = (props: ICopyContainer) => {
       }
 
       return (
-            <div className={`${styles.copyField} ${props.disabled && styles.disabled}`}>
+            <div className={`${props.className ? props.className : ''} ${styles.copyField} ${props.disabled && styles.disabled}`}>
                   {props.fieldName && <span className={styles.fieldName}>{props.fieldName}</span>}
                   <div className={`${styles.wrapper} ${isAnimation && styles.animation}`} onClick={handleCopy}>
                         <span>{props.value}</span>

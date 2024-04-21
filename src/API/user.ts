@@ -1,7 +1,7 @@
 import axios from "axios";
 import API from "./api";
 
-interface IUser {
+export interface IUser {
     address: string;
     username: string;
     avatarUrl: string;
