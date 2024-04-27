@@ -107,7 +107,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
       const hash = Cell.fromBase64(tx.boc).hash().toString('hex');
       const status = await requestTxTonapi(hash)
         
-      if (status) {
+      if (!status) {
         throw new Error('[ERROR]: send donate');
       }
 
