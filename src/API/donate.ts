@@ -2,7 +2,7 @@ import axios from "axios";
 import API from "./api";
 
 export interface IDonate {
-    id: number;
+    id?: number;
     hash: string;
     amount: number;
     username: string;
@@ -17,9 +17,10 @@ export default class ApiDonates extends API {
     public async Create(donate: IDonate) {
         try {
             const endpoint = `${this.config.baseURL}${this.prefix}create`;
-            const { data } = await axios.get(endpoint, {
+            const { data } = await axios.post(endpoint, {
+                ...donate,
+            }, {
                 headers: this.config.headers,
-                data: donate,
             });
 
             if (!data) {

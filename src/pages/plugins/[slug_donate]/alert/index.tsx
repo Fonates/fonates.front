@@ -162,7 +162,7 @@ const PagePluginAlert = () => {
                 }
 
                 addAlert({
-                    amountInTon: data.amount,
+                    amountInTon: Number(data.amount) / 1000000000,
                     username: data.username,
                     message: data?.comment?.length > 0 ? data.comment : '',
                     isVisible: false,

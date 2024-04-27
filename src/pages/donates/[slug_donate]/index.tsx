@@ -45,6 +45,11 @@ function toBase64Url(base64String: string) {
         .replace(/=+$/, '');
 }
 
+const api = new ApiDonates({
+  baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
+  headers: {},
+});
+
 const DonatePage: NextPage<IDonatePage> = (pageProps) => {
   const { form, setFormValue } = useForm();
   const { open } = useTonConnectModal();
@@ -111,13 +116,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
         throw new Error('[ERROR]: send donate');
       }
 
-      const api = new ApiDonates({
-        baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
-        headers: {},
-      });
-
       const result = await api.Create({
-        id: pageProps.link.id,
         hash: hash,
         amount: amount,
         username: form.name,
