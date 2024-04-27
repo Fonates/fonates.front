@@ -69,6 +69,7 @@ const PageConstructor = () => {
       try {
         const response = await apiLinks.GenerateLink({
           name: form.linkname || '',
+          id: 0
         });
 
         if (response?.status != "ok") {
