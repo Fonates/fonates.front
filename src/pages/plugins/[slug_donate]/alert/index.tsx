@@ -6,14 +6,20 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { motion } from "framer-motion"
+import ApiDonates from '@/API/donate';
 
 const apiLinks = new ApiLinks({
     baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
     headers: {},
 });
 
+const apiDonates = new ApiDonates({
+    baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
+    headers: {},
+});
+
 interface IAlert {
-    key: string;
+    key?: string;
     index: number;
     amountInTon: number;
     username: string;
@@ -41,7 +47,7 @@ export const Alert: React.FC<IAlert> = (props) => {
             style={position ? { zIndex: position.zIndex, top: position.y, left: position.x } : {}}
             className={styles.alertContainer}
             initial={{ opacity: 0, scale: 0.0 }}
-            animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0 }}
+            animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0, animationDelay: `${props.index * 0.3}s`}}
             transition={{ duration: DURATION_ALERT / 1000 }}
         >
             <div className={styles.alertHeader}>
@@ -60,8 +66,7 @@ const PagePluginAlert = () => {
     const { slug_donate } = router.query || {};
     const [tonConnectUI] = useTonConnectUI();
     const [arrayAlerts, setArrayAlerts] = useState<IAlert[]>([]);
-
-    console.log('slug_donate', arrayAlerts);
+    const [isMounted, setIsMounted] = useState(false);
 
     const requestDonationLink = async () => {
         const token = getCookie(CookiesStoreKeyAuth);
@@ -104,17 +109,18 @@ const PagePluginAlert = () => {
         }, DURATION_ALERT)
     }
 
-    const addAlert = () => {
+    const addAlert = (alert: IAlert) => {
         const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         
         setArrayAlerts((prevAlerts: IAlert[]) => [...prevAlerts, {
-            key, 
-            isVisible: false,
-            amountInTon: 1,
-            username: 'TheBrainDit',
-            message: 'Когда новое прохождение?',
+            ...alert,
+            key: key,
             index: prevAlerts.length,
         }]);
+
+        console.log('ALERT: ', arrayAlerts)
+        console.log('array len: ', arrayAlerts.length)
+        console.log('ALRT TIME: ', (3000 * arrayAlerts.length) + (100 * alert.message.length))
 
         setTimeout(() => {
             handlerUpadteAlert(key, true)
@@ -122,8 +128,8 @@ const PagePluginAlert = () => {
             setTimeout(() => {
                 handlerUpadteAlert(key, false)
                 handlerRemoveAlert(key);
-            }, 3000)
-        }, 3000 * arrayAlerts.length)
+            }, 2500)
+        }, (3000 * arrayAlerts.length) + (100 * alert.message.length))
     };
 
     useEffect(() => {
@@ -141,14 +147,37 @@ const PagePluginAlert = () => {
 
         const token = getCookie(CookiesStoreKeyAuth);
         if (!token) tonConnectUI.openModal();
+
+        setIsMounted(true);
     }, []);
+
+    useEffect(() => {
+        const slug = String(slug_donate || '');
+
+        if (isMounted && slug !== '') {
+            apiDonates.SSEStreaming(slug, (event) => {
+                const data = event.data === 'heartbeat' ? {} : JSON.parse(event.data);
+                if (!data?.username || !data?.amount) {
+                    return;
+                }
+
+                addAlert({
+                    amountInTon: data.amount,
+                    username: data.username,
+                    message: data?.comment?.length > 0 ? data.comment : '',
+                    isVisible: false,
+                    index: 0
+                })
+            })
+        }
+    }, [isMounted])
 
     // if (!window.obsstudio) {
     //     return null;
     // }
 
     return (
-        <div className={styles.wpAlert} onClick={addAlert}>
+        <div className={styles.wpAlert}>
             <div className={styles.alert}>
                 {arrayAlerts.map((alert, index) => (
                     <Alert

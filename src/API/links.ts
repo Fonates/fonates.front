@@ -3,6 +3,7 @@ import API from "./api";
 import { IUser } from "./user";
 
 export interface ILink {
+    id: number;
     key?: string;
     name: string;
     status?: string;

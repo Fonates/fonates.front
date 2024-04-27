@@ -1,0 +1,1 @@
+export const SMART_CONTRACT_FORWARDER = 'EQCUed4SHlw2Cr2SWywVvmOytRGCfHZXw5ORtz1njNuEUNhf';

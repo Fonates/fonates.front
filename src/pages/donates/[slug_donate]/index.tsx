@@ -14,6 +14,8 @@ import { Wrapper } from "@/components/Wrapper";
 import Link from "next/link";
 import { useTonAddress, useTonConnectModal, useTonConnectUI } from "@tonconnect/ui-react";
 import axios from "axios";
+import ApiDonates, { IDonate } from "@/API/donate";
+import { SMART_CONTRACT_FORWARDER } from "@/constants/globals";
 
 interface IDonatePage {
   link: ILink;
@@ -45,11 +47,11 @@ function toBase64Url(base64String: string) {
 
 const DonatePage: NextPage<IDonatePage> = (pageProps) => {
   const { form, setFormValue } = useForm();
-  const isMobileWidth = useMediaQuery("(max-width: 768px)");
   const { open } = useTonConnectModal();
   const [tonConnectUI, setOptions] = useTonConnectUI();
   const address = useTonAddress();
-  const router = useRouter();
+
+  console.log(pageProps)
 
   const amount = Number(form.amount || 0) * 10 ** 9;
 
@@ -91,7 +93,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
       const tx = await tonConnectUI.sendTransaction({
         messages: [
           {
-            address: 'EQCUed4SHlw2Cr2SWywVvmOytRGCfHZXw5ORtz1njNuEUNhf',
+            address: SMART_CONTRACT_FORWARDER,
             amount: String(amount),
             payload: body
           }
@@ -102,16 +104,34 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
         notifications: ['before', 'success', 'error']
       });
 
-      setTimeout(async () => {
-        const hash = Cell.fromBase64(tx.boc).hash().toString('hex');
-        const status = await requestTxTonapi(hash)
+      const hash = Cell.fromBase64(tx.boc).hash().toString('hex');
+      const status = await requestTxTonapi(hash)
         
-        if (status) {
-          alert('Транзакция успешно отправлена');
-          return
-        }
-      }, 5000)
+      if (status) {
+        throw new Error('[ERROR]: send donate');
+      }
+
+      const api = new ApiDonates({
+        baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
+        headers: {},
+      });
+
+      const result = await api.Create({
+        id: pageProps.link.id,
+        hash: hash,
+        amount: amount,
+        username: form.name,
+        comment: form.comment,
+        linkId: pageProps.link.id,
+      });
+
+      if (!result) {
+        throw new Error('[ERROR]: handleCreateDonate');
+      }
+
+      alert('Транзакция успешно отправлена');
     } catch (error) {
+      console.error(error);
       alert('Во время отправки произошла ошибка');
     }
   }
