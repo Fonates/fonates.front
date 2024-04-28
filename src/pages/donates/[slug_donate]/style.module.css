@@ -111,7 +111,6 @@
 
 .userInfo {
       width: 100%;
-      min-width: 364px;
       display: flex;
       justify-content: space-between;
       flex-direction: column;

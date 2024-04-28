@@ -1,24 +1,37 @@
 .wrapper {
     display: flex;
-    align-items: center;
     margin-bottom: 22px;
-    /* background-color: #000; */
-    height: 58px;
     border-radius: 20px;
-    padding: 0 20px;
+    /* padding: 0 20px; */
     margin-top: 60px;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.product {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info {
+    display: flex;
+    margin-bottom: 24px;
     justify-content: space-between;
 }
 
 .middleSide {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .middleSide > a {
     font-size: 14px;
-    color: white;
+}
+
+.middleSide > p {
+    font-weight: 700;
+    font-size: 14px;
 }
 
 .separator {
