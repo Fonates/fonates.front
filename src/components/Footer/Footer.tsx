@@ -40,6 +40,12 @@ export const Footer = () => {
                     <Link href="https://fonates.com/articles/quick">
                         Быстрый старт
                     </Link>
+                    <Link href="https://fonates.com/articles/how-it-is-work">
+                        Как это работает?
+                    </Link>
+                    <Link href="https://fonates.com/articles/roadmap">
+                        Roadmap
+                    </Link>
                 </div>
             </div>
             <div className={styles.product}>

@@ -19,6 +19,14 @@
     justify-content: space-between;
 }
 
+.info a {
+    color: #A5A5A5;
+}
+
+.info a:hover {
+    color: #1DA3FF;
+}
+
 .middleSide {
     display: flex;
     flex-direction: column;
