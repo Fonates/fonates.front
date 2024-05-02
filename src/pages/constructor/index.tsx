@@ -23,7 +23,6 @@ const apiLinks = new ApiLinks({
 });
 
 const PageConstructor = () => {
-  const router = useRouter();
   const tonAddress = useTonAddress();
   const { open } = useTonConnectModal();
 
@@ -31,12 +30,15 @@ const PageConstructor = () => {
   const dataFromStore = tonAddress != '' && tonAddress ? store : {};
 
   const { form, setFormValue } = useForm(dataFromStore?.data?.form);
-  const [isCopy, setIsCopy] = useState(false);
-  const [isGenerated, setIsGenerated] = useState(dataFromStore?.data?.isGenerated || false);
-  const isMobileWidth = useMediaQuery("(max-width: 768px)");
-  const [linkId, setLinkId] = useState<string>(dataFromStore?.data?.linkId || '');
   const [linkStatus, setLinkStatus] = useState<LinkActivationStatus>(dataFromStore?.data?.status || LinkActivationStatus.default);
+  const [isCopy, setIsCopy] = useState(false);
+  const isMobileWidth = useMediaQuery("(max-width: 768px)");
   const containerRef = useRef(null);
+
+  const isUserAddress = tonAddress == '' || !tonAddress;
+  const isLinkName = form?.linkname == '' || !form?.linkname;
+
+  console.log('form', form)
 
   const downloadQR = () => {
     const container = containerRef.current;
@@ -58,9 +60,6 @@ const PageConstructor = () => {
       }
     };
 
-  const isUserAddress = tonAddress == '' || !tonAddress;
-  const isLinkName = form?.linkname == '' || !form?.linkname;
-
   const onCopy = () => setIsCopy(true);
 
   async function handleGenerateLink() {
@@ -78,22 +77,21 @@ const PageConstructor = () => {
 
         const donateLink = new URL(BASE_URL.replace("<link_id>", response?.key)).href;
         
-        const formData = {
+        const formData: any = {
             linkId: response?.key,
             fullLink: donateLink,
+            linkname: form.linkname,
+            isGenerated: true,
         }
 
-        setIsGenerated(true);
-        setLinkId(response?.key);
-        setFormValue('linkId', formData.linkId);
-        setFormValue('fullLink', formData.fullLink);
-        setLinkStatus(LinkActivationStatus.integration);
+        Object.keys(formData).forEach((key: string) => {
+            setFormValue(key, formData[key]);
+        });
 
+        setLinkStatus(LinkActivationStatus.integration);
         setItemToStore(STORE_KEYS.KEY_CONSTRUCTOR_FORM, {
             form: formData,
-            isGenerated: true,
             status: LinkActivationStatus.integration,
-            linkId: response?.key,
         });
       } catch (error) {
         console.error(error);
@@ -112,7 +110,6 @@ const PageConstructor = () => {
       }
 
       setLinkStatus(LinkActivationStatus.active);
-
       setItemToStore(STORE_KEYS.KEY_CONSTRUCTOR_FORM, {
         form: form,
         isGenerated: true,
@@ -134,7 +131,7 @@ const PageConstructor = () => {
         checkLinkStatus();
       }, 1000 * 3)
       
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
     }
   }, [form?.linkId])
 
@@ -147,9 +144,10 @@ const PageConstructor = () => {
                             <div className={styles.wrapperForm}>
                               <div className={styles.btnController}>
                                   <TextField
-                                      disabled={isGenerated || isUserAddress}
+                                      disabled={form?.isGenerated || isUserAddress}
                                       fieldName="Название ссылки"
                                       formName="linkname"
+                                      value={form?.linkname || ''}
                                       setForm={setFormValue}                          
                                       maxChars={100}
                                       inputProps={{
@@ -158,7 +156,7 @@ const PageConstructor = () => {
                                       }}
                                   />
                                   {!isUserAddress ? (
-                                      <Button type={TypeButton.secondary} size={ButtonSize.medium} disabled={isGenerated || isLinkName} onClick={handleGenerateLink}>
+                                      <Button type={TypeButton.secondary} size={ButtonSize.medium} disabled={form?.isGenerated || isLinkName} onClick={handleGenerateLink}>
                                           Генерировать ссылку
                                       </Button>
                                   ) : (
@@ -169,12 +167,17 @@ const PageConstructor = () => {
                               </div>
                               <hr />
                               <div className={styles.linkWrapper}>
-                                    <CopyField value={form?.fullLink || BASE_URL} onCopy={onCopy} disabled={isLinkName || !isGenerated} fieldName="Ссылка на странцу доната" />
+                                    <CopyField 
+                                      value={form?.fullLink || BASE_URL}
+                                      onCopy={onCopy}
+                                      disabled={isLinkName || !form?.isGenerated}
+                                      fieldName="Ссылка на странцу доната"
+                                     />
                               </div>
                             </div>
                             {!isMobileWidth && (
-                              <div className={`${styles.qrWrapper} ${isGenerated ? '' : styles.qrInactive}`}>
-                                <div className={`${styles.qrTitle} ${isGenerated ? styles.qrTitleActive : ''}`} onClick={isGenerated ? downloadQR : () => {}}>
+                              <div className={`${styles.qrWrapper} ${form?.isGenerated ? '' : styles.qrInactive}`}>
+                                <div className={`${styles.qrTitle} ${form?.isGenerated ? styles.qrTitleActive : ''}`} onClick={form?.isGenerated ? downloadQR : () => {}}>
                                     <span><IconDownload /></span>
                                 </div>
                                 <div ref={containerRef}>
@@ -192,26 +195,12 @@ const PageConstructor = () => {
                               </div>
                             )}
                         </Wrapper>
-                        {/* {(isMobileWidth && isGenerated) && (
-                          <div className={styles.qrWrapper}>
-                            <QR
-                                color="#000"
-                                backgroundColor="#17171900"
-                                rounding={100}
-                                width={270}
-                                height={270}
-                                errorCorrectionLevel="H"
-                            >
-                                {form?.fullLink || BASE_URL}
-                            </QR>
-                          </div>
-                        )} */}
                   </div>
             </div>
             <div className={styles.wpTitle}>
                 <h2>Состояние ссылки</h2>
                 <div className={styles.form}>
-                    <ProgressActivation status={linkStatus} linkId={linkId} />
+                    <ProgressActivation status={linkStatus} linkId={form?.linkId} />
                 </div>
             </div>
       </div>

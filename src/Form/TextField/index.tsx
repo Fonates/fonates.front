@@ -47,7 +47,9 @@ export const TextField = (props: TextFieldProps) => {
     }
 
     useEffect(() => {
-        props.setForm(props.formName, value);
+       if (value != '') {
+            props.setForm(props.formName, value);
+       }
     }, [value]);
 
 
