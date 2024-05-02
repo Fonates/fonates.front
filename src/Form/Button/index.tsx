@@ -19,6 +19,7 @@ interface IButton {
       style?: React.CSSProperties;
       children: React.ReactNode;
       disabled?: boolean;
+      isOutline?: boolean;
 }
 
 export const Button = (props: IButton) => {
@@ -26,7 +27,13 @@ export const Button = (props: IButton) => {
 
       return (
             <button
-                  className={`${styles.button} ${styles[size]} ${styles[props.type]} ${disabled ? styles.disabled : ''}`}
+                  className={`
+                        ${styles.button} 
+                        ${styles[size]} 
+                        ${styles[props.type]} 
+                        ${disabled ? styles.disabled : ''}
+                        ${props.isOutline ? 'outline' : ''}
+                  `}
                   onClick={props.disabled ? () => {} : props.onClick}
                   style={props.style}
             >

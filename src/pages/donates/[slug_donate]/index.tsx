@@ -14,6 +14,7 @@ import { useTonAddress, useTonConnectModal, useTonConnectUI } from "@tonconnect/
 import axios from "axios";
 import ApiDonates, { IDonate } from "@/API/donate";
 import { SMART_CONTRACT_FORWARDER } from "@/constants/globals";
+import { Avatar } from "@/components/Avatar";
 
 interface IDonatePage {
   link: ILink;
@@ -191,9 +192,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
               <h2>{pageProps.link.User?.username}</h2>
               <p>Поддержите автора отправив ему TON</p>
             </div>
-            <div className={styles.avatar}>
-              <span>{String(pageProps.link.User?.username)[0].toUpperCase()}</span>
-            </div>
+            <Avatar style={{ width: '100%' }} username={pageProps.link.User?.username || 'A'} />
             <div className={styles.donatesButton}>
               <Button
                 type={TypeButton.primary}

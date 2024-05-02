@@ -33,3 +33,19 @@
     align-items: center;
     gap: 10px;
 }
+
+.headerAccountInfo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.iconAccountInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+}

@@ -6,6 +6,10 @@ import { sliceWalletAddress } from '../../utils/sliceAddress';
 import Logo from '@/assets/icons/logo_fonates.svg';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { Fragment } from 'react';
+import { Avatar, AvatarSize } from '../Avatar';
+import { Dropdown } from '../DropdownMenuBurger';
+import { deleteCookie } from 'cookies-next';
+import { CookiesStoreKeyAuth } from '@/hooks/useBackendAuth';
 
 interface HeaderProps {
     walletAddress?: string;
@@ -14,6 +18,18 @@ interface HeaderProps {
 export const Header = ({ walletAddress }: HeaderProps) => {
     const { open } = useTonConnectModal();
     const isMobileWidth = useMediaQuery('(max-width: 500px)')
+
+    const logout = () => {
+        console.log('logout');
+        deleteCookie(CookiesStoreKeyAuth);
+        window.location.reload();
+    }
+
+    const arrayElementsDropdown = [{
+        name: 'Выйти',
+        value: '',
+        onClick: logout,
+    }];
 
     return (
         <div className={styles.headerWrapper}>
@@ -35,9 +51,20 @@ export const Header = ({ walletAddress }: HeaderProps) => {
                     </Fragment>
                 )}
                 {walletAddress ? (
-                    <Button type="tertiary" size={ButtonSize.small} onClick={open}>
-                        {sliceWalletAddress(walletAddress, 4)}
-                    </Button>
+                    <Dropdown arrayInfo={arrayElementsDropdown}>
+                        <Button 
+                            type="tertiary"
+                            isOutline 
+                            size={ButtonSize.small}
+                        >
+                            <div className={styles.headerAccountInfo}>
+                                <span className={styles.iconAccountInfo}>
+                                    <Avatar username={walletAddress} size={AvatarSize.small} /> 
+                                    {sliceWalletAddress(walletAddress, 4)}
+                                </span>
+                            </div>
+                        </Button>
+                    </Dropdown>
                 ) : (
                     <Button type="tertiary" size={ButtonSize.small} onClick={open}>
                         Войти

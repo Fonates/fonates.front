@@ -1,0 +1,33 @@
+.wp {
+    position: relative;
+}
+
+.dropdownItems {
+    position: absolute;
+    box-shadow: 0 0 0 2px rgba(11, 133, 255, 0.14);
+    background: white;
+    width: 100%;
+    border-radius: 12px;
+    padding: 4px;
+    top: calc(100% + 12px);
+    z-index: 2;
+}
+
+.itemDropdown {
+    border-radius: 10px;
+    transition: 0.2s;
+    cursor: pointer;
+    padding: 12px 16px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #696969;
+}
+
+.itemDropdown:hover {
+    background: #FAFAFA;
+}
+
+.itemDropdown:active {
+    transform: scale(0.98);
+}
