@@ -1,6 +1,7 @@
 import styles from './style.module.css';
 import { useState } from 'react';
 import IconChevron from '@/assets/icons/chevron.compact.down.svg';
+import { AnimatePresence, motion, useAnimation } from "framer-motion"
 
 interface DropdownProps {
       arrayInfo: Array<{
@@ -18,11 +19,23 @@ const DropdownItem = (props: { name: string; value: string }) => {
                         <p>{props.name}</p>
                         <IconChevron style={{ transform: !isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                   </div>
-                  {isOpen && (
-                        <div className={styles.dropdownContent}>
-                              <p>{props.value}</p>
-                        </div>
-                  )}
+                  <AnimatePresence>
+                        {isOpen && (
+                              <motion.div  
+                                    initial={'close'}
+                                    variants={{
+                                          open: { height: 'auto', opacity: 1 },
+                                          close: { height: 0, opacity: 0 },
+                                    }}
+                                    exit={{ height: 0, opacity: 0 }} 
+                                    animate={isOpen ? "open" : "close"}
+                                    transition={{ duration: 0.2 }} 
+                                    className={styles.dropdownContent}
+                              >
+                                    <p>{props.value}</p>
+                              </motion.div >
+                        )}
+                  </AnimatePresence>
             </div>
       )
 };

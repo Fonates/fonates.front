@@ -55,8 +55,6 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
   const [tonConnectUI, setOptions] = useTonConnectUI();
   const address = useTonAddress();
 
-  console.log(pageProps)
-
   const amount = Number(form.amount || 0) * 10 ** 9;
 
   const danate: Donate = {
@@ -73,7 +71,6 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
     toString('base64');
 
   const deeplink = `ton://transfer/${'EQCUed4SHlw2Cr2SWywVvmOytRGCfHZXw5ORtz1njNuEUNhf'}?amount=${amount}&bin=${toBase64Url(body)}`;
-  console.log(deeplink)
 
   const requestTxTonapi = async (hash: string): Promise<boolean> => {
     try {

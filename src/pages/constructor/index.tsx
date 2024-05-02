@@ -38,8 +38,6 @@ const PageConstructor = () => {
   const isUserAddress = tonAddress == '' || !tonAddress;
   const isLinkName = form?.linkname == '' || !form?.linkname;
 
-  console.log('form', form)
-
   const downloadQR = () => {
     const container = containerRef.current;
 

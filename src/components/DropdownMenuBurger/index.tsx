@@ -1,7 +1,7 @@
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import styles from './style.module.css'
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useAnimation, useCycle } from "framer-motion"
+import { useRef, useState } from "react";
+import { AnimatePresence, motion, useAnimation } from "framer-motion"
 
 interface DropdownProps {
     arrayInfo: Array<{

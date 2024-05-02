@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Header } from "../Header/Header";
 import { Footer } from "../Footer/Footer";
-import { useTonAddress, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
+import { THEME, useTonAddress, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import { useBackendAuth } from "@/hooks/useBackendAuth";
 import { useRouter } from "next/router";
 
@@ -16,6 +16,12 @@ export const Layout = ({ children }: { children: React.ReactNode | any }) => {
     const [isMounted, setIsMounted] = useState(false);
     
     useEffect(() => {
+        tonConnectUI.uiOptions = {
+            language: 'ru',
+            uiPreferences: {
+                theme: THEME.LIGHT,
+            }
+        }
         tonConnectUI.connectionRestored.then(() => {
             setIsMounted(true);
         });
