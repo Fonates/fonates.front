@@ -22,12 +22,9 @@
     font-weight: 500;
     font-size: 16px;
     color: #696969;
+    user-select: none;
 }
 
 .itemDropdown:hover {
     background: #FAFAFA;
-}
-
-.itemDropdown:active {
-    transform: scale(0.98);
 }
