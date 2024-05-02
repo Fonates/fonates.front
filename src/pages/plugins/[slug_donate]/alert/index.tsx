@@ -18,7 +18,7 @@ const apiDonates = new ApiDonates({
     headers: {},
 });
 
-interface IAlert {
+export interface IAlert {
     key?: string;
     index: number;
     amountInTon: number;
@@ -66,9 +66,10 @@ const PagePluginAlert = () => {
     const { slug_donate } = router.query || {};
     const [tonConnectUI] = useTonConnectUI();
     const [arrayAlerts, setArrayAlerts] = useState<IAlert[]>([]);
+    const [dataStream, setDataStream] = useState<IAlert>();
     const [isMounted, setIsMounted] = useState(false);
 
-    const requestDonationLink = async () => {
+    const requestDonationLink = async (): Promise<boolean | undefined> => {
         const token = getCookie(CookiesStoreKeyAuth);
         if (!token) return;
 
@@ -88,6 +89,7 @@ const PagePluginAlert = () => {
         }
 
         console.log('Link activated');
+        return true
     }
 
     const handlerUpadteAlert = (key: string, isVisible: boolean) => {
@@ -110,7 +112,12 @@ const PagePluginAlert = () => {
     }
 
     const addAlert = (alert: IAlert) => {
-        const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const key = (Math.random()
+            .toString(36)
+            .substring(2, 15) + Math.random()
+            .toString(36)
+            .substring(2, 15)
+        );
         
         setArrayAlerts((prevAlerts: IAlert[]) => [...prevAlerts, {
             ...alert,
@@ -118,9 +125,8 @@ const PagePluginAlert = () => {
             index: prevAlerts.length,
         }]);
 
-        console.log('ALERT: ', arrayAlerts)
-        console.log('array len: ', arrayAlerts.length)
-        console.log('ALRT TIME: ', (3000 * arrayAlerts.length) + (100 * alert.message.length))
+        const delay = 50 * alert.message.length;
+        const t = (delay + 3000) * arrayAlerts.length; 
 
         setTimeout(() => {
             handlerUpadteAlert(key, true)
@@ -128,56 +134,64 @@ const PagePluginAlert = () => {
             setTimeout(() => {
                 handlerUpadteAlert(key, false)
                 handlerRemoveAlert(key);
-            }, 2500)
-        }, (3000 * arrayAlerts.length) + (100 * alert.message.length))
+            }, (delay + 3000))
+        }, t)
     };
 
-    useEffect(() => {
-        // if (!window.obsstudio) {
-        //     return;
-        // }
+    const streamingAlert = async (slug: string) => {    
+        apiDonates.SSEStreaming(slug, (event) => {
+            const data = event.data === 'heartbeat' ? {} : JSON.parse(event.data);
+            if (!data?.username || !data?.amount) {
+                return;
+            }
 
-        requestDonationLink();
-    }, [slug_donate]);
+            setDataStream({
+                amountInTon: Number(data.amount) / 1000000000,
+                username: data.username,
+                message: data?.comment?.length > 0 ? data.comment : '',
+                isVisible: false,
+                index: 0
+            })
+        })
+    }
 
     useEffect(() => {
-        // if (!window.obsstudio) {
-        //     return;
-        // }
+        if (!window.obsstudio) {
+            return;
+        }
 
         const token = getCookie(CookiesStoreKeyAuth);
         if (!token) tonConnectUI.openModal();
-
         setIsMounted(true);
     }, []);
 
     useEffect(() => {
+        if (!isMounted || !dataStream) return;
+        addAlert(dataStream);
+    }, [dataStream])
+
+    useEffect(() => {
         const slug = String(slug_donate || '');
+        if (!isMounted || slug === '') return;
 
-        if (isMounted && slug !== '') {
-            apiDonates.SSEStreaming(slug, (event) => {
-                const data = event.data === 'heartbeat' ? {} : JSON.parse(event.data);
-                if (!data?.username || !data?.amount) {
-                    return;
-                }
-
-                addAlert({
-                    amountInTon: Number(data.amount) / 1000000000,
-                    username: data.username,
-                    message: data?.comment?.length > 0 ? data.comment : '',
-                    isVisible: false,
-                    index: 0
-                })
-            })
-        }
+        requestDonationLink().then(isActivated => {
+            if (!isActivated) return;
+            streamingAlert(slug)
+        });
     }, [isMounted])
 
-    // if (!window.obsstudio) {
-    //     return null;
-    // }
+    if (!window.obsstudio) {
+        return null;
+    }
 
     return (
-        <div className={styles.wpAlert}>
+        <div className={styles.wpAlert} onClick={() => addAlert({
+            amountInTon: 10000000 / 1000000000,
+            username: 'Fonates',
+            message: 'Test message',
+            isVisible: false,
+            index: 0
+        })}>
             <div className={styles.alert}>
                 {arrayAlerts.map((alert, index) => (
                     <Alert

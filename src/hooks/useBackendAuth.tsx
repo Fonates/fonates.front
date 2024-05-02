@@ -59,7 +59,20 @@ export function useBackendAuth() {
             backendAuth.CheckProof(wallet.connectItems.tonProof.proof, wallet.account).then(result => {
                 if (result) {
                     setToken(result);
-                    setCookie(CookiesStoreKeyAuth, result, { path: '/', expires: new Date(Date.now() + payloadTTLMS)});
+                    
+                    if (window?.obsstudio) {
+                        setCookie(
+                            CookiesStoreKeyAuth, 
+                            result, 
+                            { path: '/', expires: new Date(Date.now() + TTLMS_TEN_YEARS)}
+                        );
+                    } else {
+                        setCookie(
+                            CookiesStoreKeyAuth, 
+                            result, 
+                            { path: '/', expires: new Date(Date.now() + payloadTTLMS)}
+                        );
+                    }
                     window.location.reload();
                 } else {
                     alert('Please try another wallet');

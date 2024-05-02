@@ -1,5 +1,6 @@
 import axios from "axios";
 import API from "./api";
+import { IAlert } from "@/pages/plugins/[slug_donate]/alert";
 
 export interface IDonate {
     id?: number;
