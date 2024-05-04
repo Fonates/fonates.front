@@ -135,71 +135,71 @@ const PageConstructor = () => {
 
   return (
       <div className={styles.wrapper}>
-            <div className={styles.wpTitle}>
-                  <h2>Конструктор ссылок</h2>
-                  <div className={styles.form}>
-                        <Wrapper cs={styles.wpController}>
-                            <div className={styles.wrapperForm}>
-                              <div className={styles.btnController}>
-                                  <TextField
-                                      disabled={form?.isGenerated || isUserAddress}
-                                      fieldName="Название ссылки"
-                                      formName="linkname"
-                                      value={form?.linkname || ''}
-                                      setForm={setFormValue}                          
-                                      maxChars={100}
-                                      inputProps={{
-                                          placeholder: "Введите ваше имя или никнейм",
-                                          name: "name",
-                                      }}
+            <div className={"wp__title"}>
+              <h1>Конструктор ссылок</h1>
+              <div className={styles.form}>
+                    <Wrapper cs={styles.wpController}>
+                        <div className={styles.wrapperForm}>
+                          <div className={styles.btnController}>
+                              <TextField
+                                  disabled={form?.isGenerated || isUserAddress}
+                                  fieldName="Название ссылки"
+                                  formName="linkname"
+                                  value={form?.linkname || ''}
+                                  setForm={setFormValue}                          
+                                  maxChars={100}
+                                  inputProps={{
+                                      placeholder: "Введите ваше имя или никнейм",
+                                      name: "name",
+                                  }}
+                              />
+                              {!isUserAddress ? (
+                                  <Button type={TypeButton.secondary} size={ButtonSize.medium} disabled={form?.isGenerated || isLinkName} onClick={handleGenerateLink}>
+                                      Генерировать ссылку
+                                  </Button>
+                              ) : (
+                                  <Button type={TypeButton.secondary} size={ButtonSize.medium} onClick={open}>
+                                      Подключить кошелек
+                                  </Button>
+                              )}
+                          </div>
+                          <hr />
+                          <div className={styles.linkWrapper}>
+                                <CopyField 
+                                  value={form?.fullLink || BASE_URL}
+                                  onCopy={onCopy}
+                                  disabled={isLinkName || !form?.isGenerated}
+                                  fieldName="Ссылка на странцу доната"
                                   />
-                                  {!isUserAddress ? (
-                                      <Button type={TypeButton.secondary} size={ButtonSize.medium} disabled={form?.isGenerated || isLinkName} onClick={handleGenerateLink}>
-                                          Генерировать ссылку
-                                      </Button>
-                                  ) : (
-                                      <Button type={TypeButton.secondary} size={ButtonSize.medium} onClick={open}>
-                                          Подключить кошелек
-                                      </Button>
-                                  )}
-                              </div>
-                              <hr />
-                              <div className={styles.linkWrapper}>
-                                    <CopyField 
-                                      value={form?.fullLink || BASE_URL}
-                                      onCopy={onCopy}
-                                      disabled={isLinkName || !form?.isGenerated}
-                                      fieldName="Ссылка на странцу доната"
-                                     />
-                              </div>
+                          </div>
+                        </div>
+                        {!isMobileWidth && (
+                          <div className={`${styles.qrWrapper} ${form?.isGenerated ? '' : styles.qrInactive}`}>
+                            <div className={`${styles.qrTitle} ${form?.isGenerated ? styles.qrTitleActive : ''}`} onClick={form?.isGenerated ? downloadQR : () => {}}>
+                                <span><IconDownload /></span>
                             </div>
-                            {!isMobileWidth && (
-                              <div className={`${styles.qrWrapper} ${form?.isGenerated ? '' : styles.qrInactive}`}>
-                                <div className={`${styles.qrTitle} ${form?.isGenerated ? styles.qrTitleActive : ''}`} onClick={form?.isGenerated ? downloadQR : () => {}}>
-                                    <span><IconDownload /></span>
-                                </div>
-                                <div ref={containerRef}>
-                                  <QR
-                                      color="#000"
-                                      backgroundColor="#17171900"
-                                      rounding={100}
-                                      width={225}
-                                      height={225}
-                                      errorCorrectionLevel="H"
-                                  >
-                                      {form?.fullLink || BASE_URL}
-                                  </QR>
-                                </div>
-                              </div>
-                            )}
-                        </Wrapper>
-                  </div>
+                            <div ref={containerRef}>
+                              <QR
+                                  color="#000"
+                                  backgroundColor="#17171900"
+                                  rounding={100}
+                                  width={225}
+                                  height={225}
+                                  errorCorrectionLevel="H"
+                              >
+                                  {form?.fullLink || BASE_URL}
+                              </QR>
+                            </div>
+                          </div>
+                        )}
+                    </Wrapper>
+              </div>
             </div>
-            <div className={styles.wpTitle}>
-                <h2>Состояние ссылки</h2>
-                <div className={styles.form}>
-                    <ProgressActivation status={linkStatus} linkId={form?.linkId} />
-                </div>
+            <div className="wp__title">
+              <h2>Состояние ссылки</h2>
+              <div className={styles.form}>
+                  <ProgressActivation status={linkStatus} linkId={form?.linkId} />
+              </div>
             </div>
       </div>
   );

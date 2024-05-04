@@ -144,8 +144,8 @@ export const ProgressActivation: React.FC<IProgressActivation> = (props) => {
         <Wrapper>
             <Progress info={info} />
             <div className={styles.wpInfo}>
-                <h2>{info?.title}</h2>
-                <p>{info?.subtitle}</p>
+                <p>{info?.title}</p>
+                <span>{info?.subtitle}</span>
                 {status == LinkActivationStatus.integration && (
                     <CopyField value={pluginUrl} className={styles.copyAlertPlagin} />
                 )}

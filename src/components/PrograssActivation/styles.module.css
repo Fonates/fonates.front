@@ -52,3 +52,19 @@
     max-width: 528px;
     margin-top: 10px;
 }
+
+.wpInfo {
+    
+}
+
+.wpInfo > p {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.wpInfo > span {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    color: #696969;
+}

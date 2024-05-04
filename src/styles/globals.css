@@ -112,6 +112,13 @@ main {
     margin-bottom: 34px;
 }
 
+.article__texts {
+    padding: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .aritces__img {
     padding: 0px !important;
     overflow: hidden;
@@ -139,7 +146,11 @@ main {
     gap: 12px;
 }
 
-.wp__title > h1, h2, h3, h4, h5 {
+.wp__title > h1, 
+.wp__title > h2,
+.wp__title > h3,
+.wp__title > h4, 
+.wp__title > h5 {
     padding-left: 10px;
 }
 
