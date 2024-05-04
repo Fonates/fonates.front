@@ -39,7 +39,7 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
                     >
                             {props.arrayInfo.map((item, index) => (
                                 <div key={index} onClick={item.onClick} className={styles.itemDropdown}>
-                                    {item.name}
+                                    <span>{item.name}</span>
                                 </div>
                             ))}
                     </motion.div>  

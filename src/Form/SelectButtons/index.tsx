@@ -7,6 +7,8 @@ interface SelectButtonsProps {
       nameValue?: string;
       formName: string;
       fieldName?: string;
+      disabled?: boolean;
+      value?: any;
       setForm: (formName: string, value: string) => void;
 }
 
@@ -20,7 +22,12 @@ export const SelectButtons = (props: SelectButtonsProps) => {
       useEffect(() => {
             if (indexElem === -1) return;
             handleChangeValue(indexElem);
-      }, [indexElem]) 
+      }, [indexElem]);
+
+      const handleSelect = (index: number) => {
+            if (props?.disabled) return;
+            setIndex(index);
+      }
 
       return (
            <Fragment>
@@ -29,21 +36,31 @@ export const SelectButtons = (props: SelectButtonsProps) => {
                         <div className={styles.wrapper}>
                               {props.arrayValues.map((value, index) => {
                                     return (
-                                          <span key={index} className={`${styles.button} ${index === indexElem && styles.active}`} onClick={() => setIndex(index)}>
+                                          <span key={index}
+                                                className={`${styles.button} ${index === indexElem && styles.active} ${props?.disabled ? styles.disabled : ''}`}
+                                                onClick={() => handleSelect(index)}>
                                                 {value} {props.nameValue}
                                           </span>
                                     )
                               })}
-                              <span className={`${styles.button} ${indexElem < 0 && styles.active} ${styles.otherBtn}`} onClick={() => setIndex(-1)}>
+                              <span className={`${styles.button} ${indexElem < 0 && styles.active} ${styles.otherBtn} ${props?.disabled ? styles.disabled : ''}`} onClick={() => handleSelect(-1)}>
                                     Другая
                               </span>
                         </div>
                   </div>
                   {indexElem < 0 && (
-                        <TextField type={TextFieldType.number} valueName="TON" setForm={props.setForm} formName="amount" inputProps={{
-                              placeholder: 'Введите сумму доната',
-                              name: 'amount',
-                        }} />
+                        <TextField 
+                              type={TextFieldType.number}
+                              valueName="TON"
+                              setForm={props.setForm}
+                              formName="amount" 
+                              maxChars={11} 
+                              value={props.value}
+                              inputProps={{
+                                    placeholder: 'Введите сумму доната',
+                                    name: 'amount',
+                              }}
+                        />
                   )}
            </Fragment>
       )

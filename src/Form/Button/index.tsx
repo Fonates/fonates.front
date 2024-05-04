@@ -20,6 +20,7 @@ interface IButton {
       children: React.ReactNode;
       disabled?: boolean;
       isOutline?: boolean;
+      value?: string;
 }
 
 export const Button = (props: IButton) => {

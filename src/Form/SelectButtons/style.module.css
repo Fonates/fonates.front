@@ -44,6 +44,11 @@
       flex: 1;
 }
 
+.disabled {
+      opacity: 0.5;
+      cursor: default;
+}
+
 /* .otherBtn {
       flex: 1;
       justify-content: center;

@@ -1,20 +1,26 @@
 import { TextField, TextareaField } from "@/Form/TextField";
 import styles from "./style.module.css";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useForm } from "@/Form/useForm";
 import { SelectButtons } from "@/Form/SelectButtons";
 import { Dropdown } from "@/components/Dropdown";
 import { Button, ButtonSize, TypeButton } from "@/Form/Button";
 import ApiLinks, { ILink } from "@/API/links";
 import { GetServerSideProps, NextPage } from "next";
-import { Address, Builder, Cell, beginCell } from "@ton/core";
+import { Address, Builder, Cell, beginCell, fromNano, toNano } from "@ton/core";
 import { Wrapper } from "@/components/Wrapper";
 import Link from "next/link";
-import { useTonAddress, useTonConnectModal, useTonConnectUI } from "@tonconnect/ui-react";
+import { useTonAddress, useTonConnectModal, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import axios from "axios";
 import ApiDonates, { IDonate } from "@/API/donate";
 import { SMART_CONTRACT_FORWARDER } from "@/constants/globals";
-import { Avatar } from "@/components/Avatar";
+import { Avatar, AvatarSize } from "@/components/Avatar";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { sliceWalletAddress } from "@/utils/sliceAddress";
+import { formatNumber } from "@/utils/formatNumber";
+import { Skeleton } from "@/components/Skeleton";
+import IconWallet96 from '@/assets/icons/wallet_96.svg'
+import { useRouter } from "next/router";
 
 interface IDonatePage {
   link: ILink;
@@ -49,19 +55,63 @@ const api = new ApiDonates({
   headers: {},
 });
 
+const tonapiAppKey = 'AEIJAIYB36JEQXYAAAAN4XYISZAZMTY75D3JTBEEDPJH36D3TJ2ZBKYCRBZFEFEVZVKO6KY'
+
+enum Currencies {
+  ton = 'ton',
+  usd = 'usd'
+}
+
+const requestRates = async (tokens: string[], currencies: Currencies[]) => {
+  try {
+    const tokensStr = tokens.join(',')
+    const currenciesStr = currencies.join(',')
+
+    const { data } = await axios.get(`https://tonapi.io/v2/rates?tokens=${tokensStr}&currencies=${currenciesStr}`, {
+      headers: {
+        'Authorization': `Bearer ${tonapiAppKey}`
+      }
+    })
+
+    if (!data?.rates) {
+      throw new Error('Rates not found');
+    }
+
+    return data.rates 
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+
 const DonatePage: NextPage<IDonatePage> = (pageProps) => {
+  const router = useRouter();
   const { form, setFormValue } = useForm();
   const { open } = useTonConnectModal();
+  const isMobileWidth = useMediaQuery('(max-width: 768px)')
   const [tonConnectUI, setOptions] = useTonConnectUI();
   const address = useTonAddress();
+  const [isMounted, setIsMounted] = useState(false);
 
-  const amount = Number(form.amount || 0) * 10 ** 9;
+  const [financeInfo, setFinanceInfo] = useState({
+    balance: 0.00,
+    currencies: {
+      TON: 0.00,
+      USD: 0.00,
+    },
+    isWallet: false,
+    isCurrency: false,
+  })
+
+  const isShowFinance = financeInfo.isCurrency && financeInfo.isWallet;
+  const amount = Number(form?.amount || 0) * 10 ** 9;
 
   const danate: Donate = {
     $$type: 'Donate',
     to: Address.parse(String(pageProps.link.User?.address || '')),
     text: `ton.fonates|${form.name}|${form.comment}` || '',
-    value: amount,
+    value: toNano(String(amount)),
   }
 
   const body = beginCell().
@@ -70,7 +120,25 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
     toBoc().
     toString('base64');
 
-  const deeplink = `ton://transfer/${'EQCUed4SHlw2Cr2SWywVvmOytRGCfHZXw5ORtz1njNuEUNhf'}?amount=${amount}&bin=${toBase64Url(body)}`;
+  // const deeplink = `ton://transfer/${'EQCUed4SHlw2Cr2SWywVvmOytRGCfHZXw5ORtz1njNuEUNhf'}?amount=${amount}&bin=${toBase64Url(body)}`;
+
+  const requestAccountTonapi = async (address: string) => {
+    try {
+      const { data } = await axios.get(`https://tonapi.io/v2/accounts/${address}`, {
+        headers: {
+          'Authorization': `Bearer ${tonapiAppKey}`
+        }
+      })
+      if (!data?.balance) {
+        throw new Error('Account is not wallet')
+      }
+
+      return data
+    } catch (error) {
+      console.error(error)
+      return null
+    }
+  }
 
   const requestTxTonapi = async (hash: string): Promise<boolean> => {
     try {
@@ -124,11 +192,21 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
         throw new Error('[ERROR]: handleCreateDonate');
       }
 
-      alert('Транзакция успешно отправлена');
+      Object.keys(form).forEach((key) => {
+        setFormValue(key, key === 'amount' ? 0 : '')
+      })
     } catch (error) {
       console.error(error);
       alert('Во время отправки произошла ошибка');
     }
+  }
+
+  const buttonDisabled = () => {
+    if (address == '') return false;
+    if (address != '' && !isShowFinance) return true;
+    if (form?.name == '' || !form?.name) return true;
+    if (address == '' || form.amount == 0) return true;
+    return false;
   }
 
   const arrayFaq = [
@@ -150,6 +228,55 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
     }
   ];
 
+  const handleGetWallet = async () => {
+    const wallet = await requestAccountTonapi(address);
+    if (!wallet) return
+
+    setFinanceInfo((items: any) => ({
+      ...items,
+      balance: Number(fromNano(wallet?.balance)),
+      isWallet: true,
+    }));
+  }
+
+  const handleGetRates = async () => {
+    const rates = await requestRates(['TON'], [Currencies.ton, Currencies.usd])
+    if (!rates) return
+
+    setFinanceInfo((items: any) => ({
+      ...items,
+      isCurrency: true,
+      currencies: rates['TON'].prices,
+    }));
+  }
+
+  const handleGetFinanceInfo = async () => {
+    setTimeout(() => {
+      handleGetWallet().then(() => {
+        setTimeout(() => {
+          handleGetRates()
+          setInterval(() => {
+            handleGetRates()
+          }, 5000)
+        }, 1000)
+      })
+    }, 1000)
+  }
+
+  useEffect(() => {
+    if (address != '' && isMounted) {
+      handleGetFinanceInfo()
+    }
+  }, [isMounted, address])
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const skeletonStyle = { width: '100%', height: '19px' };
+
+  console.log(form)
+
   return (
     <Fragment>
       <div className={styles.wrapper}>
@@ -158,15 +285,27 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
               <SelectButtons
                 arrayValues={[1, 2, 5, 10]}
                 nameValue="TON"
-                setForm={setFormValue}
+                value={form?.amount  || 0}
+                setForm={(name: string, value: any) => {
+                  const valueToNumber = Number(value || 0)
+                  if (valueToNumber <= financeInfo.balance) {
+                    setFormValue(name, valueToNumber)
+                  } else {
+                    setFormValue(name, 0.0)
+                  }
+                }}
                 fieldName="Сумма доната"
+                disabled={address == ''}
                 formName="amount"
               />
             </div>
             <TextField
               fieldName="Имя"
               formName="name"
+              maxChars={20}
+              value={form?.name}
               setForm={setFormValue}
+              disabled={address == ''}
               inputProps={{
                 placeholder: "Введите ваше имя",
                 name: "name",
@@ -174,7 +313,9 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
             />
             <TextareaField
               fieldName="Коментарий"
-              maxLength={250}
+              maxLength={200}
+              value={form?.comment}
+              disabled={address == ''}
               formName="comment"
               setForm={setFormValue}
               inputProps={{
@@ -184,26 +325,97 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
               }}
             />
         </Wrapper>
-        <Wrapper cs={styles.userInfo}>
+        {address === '' && (
+          <Wrapper cs={styles.userInfo} style={{ width: isMobileWidth ? '100%' : 'fit-content' }}>
+              <div className={styles.emptyInfo}>
+                <div className={styles.hintsEmptyInfo}>
+                  <IconWallet96 />
+                  <p>Подключите кошелк для отправки</p>
+                  <Link className={styles.lk} href={'/articles/quick'}>
+                      Как это работает?
+                  </Link>
+                </div>
+                <div className={styles.donatesButton}>
+                  <Button
+                    type={TypeButton.primary}
+                    onClick={address == '' ? () => open() : () => handleDonate()}
+                    size={ButtonSize.medium}
+                    disabled={buttonDisabled()}
+                    style={{ width: "100%"}}
+                  >
+                    <span>
+                      {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
+                    </span>
+                  </Button>
+                </div>
+              </div>
+          </Wrapper>
+        )}
+        {address !== '' && (
+          <Wrapper cs={styles.userInfo} style={{ width: isMobileWidth ? '100%' : 'fit-content' }}>
             <div className={styles.userInfoContent}>
+              <Avatar username={pageProps.link.User?.username || 'A'} size={AvatarSize.normal} />
               <h2>{pageProps.link.User?.username}</h2>
-              <p>Поддержите автора отправив ему TON</p>
             </div>
-            <Avatar style={{ width: '100%' }} username={pageProps.link.User?.username || 'A'} />
+            <div className={styles.infoPayment}>
+              <div className={styles.row}>
+                <span className={styles.rowName}>Контракт</span>
+                <span className={styles.rowValue}>
+                  <Link href={`https://tonviewer.com/${SMART_CONTRACT_FORWARDER}`}>
+                    {sliceWalletAddress(SMART_CONTRACT_FORWARDER, 6)}
+                  </Link>
+                </span>
+              </div>
+
+              <div className={styles.row}>
+                <span className={styles.rowName}>Коммисия</span>
+                <span className={styles.rowValue}>0%</span>
+              </div>
+            </div>
+            <div className={styles.infoPayment}>
+              <Skeleton show={isShowFinance} style={skeletonStyle}>
+                <div className={styles.row}>
+                  <span className={styles.rowName}>Ваш баланс</span>
+                  <span className={styles.rowValue}>{formatNumber(financeInfo.balance)} TON</span>
+                </div>
+              </Skeleton>
+              <Skeleton show={isShowFinance} style={skeletonStyle}>
+                <div className={styles.row}>
+                  <span className={styles.rowName}>Цена TON</span>
+                  <span className={styles.rowValue}>${formatNumber(financeInfo.currencies.USD)}</span>
+                </div>
+              </Skeleton>
+              {/* <Skeleton show={isShowFinance} style={skeletonStyle}>
+                <div className={styles.row}>
+                  <span className={styles.rowName}>Коммисия</span>
+                  <span className={styles.rowValue}>0%</span>
+                </div>
+              </Skeleton> */}
+              <Skeleton show={isShowFinance} style={skeletonStyle}>
+                <div className={styles.row} style={{ alignItems: 'start' }}>
+                  <span className={styles.rowName}>К&nbsp;оплате</span>
+                  <span className={styles.rowValue}>
+                    {formatNumber(Number(form.amount || 0), 4)}&nbsp;TON
+                    ≈&nbsp;${formatNumber(Number(form.amount || 0) * financeInfo.currencies.USD, 4)}
+                  </span>
+                </div>
+              </Skeleton>
+            </div>
             <div className={styles.donatesButton}>
               <Button
                 type={TypeButton.primary}
                 onClick={address == '' ? () => open() : () => handleDonate()}
                 size={ButtonSize.medium}
-                style={{ width: "100%" }}
+                disabled={buttonDisabled()}
+                style={{ width: "100%"}}
               >
-                {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
+                <span>
+                  {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
+                </span>
               </Button>
-              <Link className={styles.lk} href={'/articles/quick'}>
-                Как это работает?
-              </Link>
             </div>
-        </Wrapper>
+          </Wrapper>
+        )}
       </div>
       <div className={styles.wrapperFaq}>
         <Dropdown arrayInfo={arrayFaq} />

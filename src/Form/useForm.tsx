@@ -10,8 +10,13 @@ export const useForm = (preloadData?: any) => {
           }));
       }
 
+      const clearForm = () => {
+        setForm({})
+      }
+
       return {
           form,
           setFormValue,
+          clearForm,
       }
 }
