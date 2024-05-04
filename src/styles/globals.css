@@ -133,6 +133,16 @@ main {
     box-shadow: 0 0 12px 0 rgba(32, 162, 255, 0.5), 0 0 0 2px rgba(11, 133, 255, 0.14);
 }
 
+.wp__title {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wp__title > h1, h2, h3, h4, h5 {
+    padding-left: 10px;
+}
+
 hr {
     display: block;
     width: 100%;

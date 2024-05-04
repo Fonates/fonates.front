@@ -275,147 +275,142 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
 
   const skeletonStyle = { width: '100%', height: '19px' };
 
-  console.log(form)
-
   return (
     <Fragment>
-      <div className={styles.wrapper}>
-        <Wrapper cs={styles.wrapperForm}>
-          <div className={styles.amountWrapper}>
-              <SelectButtons
-                arrayValues={[1, 2, 5, 10]}
-                nameValue="TON"
-                value={form?.amount  || 0}
-                setForm={(name: string, value: any) => {
-                  const valueToNumber = Number(value || 0)
-                  if (valueToNumber <= financeInfo.balance) {
-                    setFormValue(name, valueToNumber)
-                  } else {
-                    setFormValue(name, 0.0)
-                  }
-                }}
-                fieldName="Сумма доната"
+      <div className={"wp__title"}>
+        <h1>Отправить донат</h1>
+        <div className={styles.wrapper}>
+          <Wrapper cs={styles.wrapperForm}>
+            <div className={styles.amountWrapper}>
+                <SelectButtons
+                  arrayValues={[1, 2, 5, 10]}
+                  nameValue="TON"
+                  value={form?.amount  || 0}
+                  setForm={(name: string, value: any) => {
+                    const valueToNumber = Number(value || 0)
+                    if (valueToNumber <= financeInfo.balance) {
+                      setFormValue(name, valueToNumber)
+                    } else {
+                      setFormValue(name, 0.0)
+                    }
+                  }}
+                  fieldName="Сумма доната"
+                  disabled={address == ''}
+                  formName="amount"
+                />
+              </div>
+              <TextField
+                fieldName="Имя"
+                formName="name"
+                maxChars={20}
+                value={form?.name}
+                setForm={setFormValue}
                 disabled={address == ''}
-                formName="amount"
+                inputProps={{
+                  placeholder: "Введите ваше имя",
+                  name: "name",
+                }}
               />
-            </div>
-            <TextField
-              fieldName="Имя"
-              formName="name"
-              maxChars={20}
-              value={form?.name}
-              setForm={setFormValue}
-              disabled={address == ''}
-              inputProps={{
-                placeholder: "Введите ваше имя",
-                name: "name",
-              }}
-            />
-            <TextareaField
-              fieldName="Коментарий"
-              maxLength={200}
-              value={form?.comment}
-              disabled={address == ''}
-              formName="comment"
-              setForm={setFormValue}
-              inputProps={{
-                placeholder: "Введите коментарий",
-                name: "comment",
-                rows: 5,
-              }}
-            />
-        </Wrapper>
-        {address === '' && (
-          <Wrapper cs={styles.userInfo} style={{ width: isMobileWidth ? '100%' : 'fit-content' }}>
-              <div className={styles.emptyInfo}>
-                <div className={styles.hintsEmptyInfo}>
-                  <IconWallet96 />
-                  <p>Подключите кошелк для отправки</p>
-                  <Link className={styles.lk} href={'/articles/quick'}>
-                      Как это работает?
-                  </Link>
-                </div>
-                <div className={styles.donatesButton}>
-                  <Button
-                    type={TypeButton.primary}
-                    onClick={address == '' ? () => open() : () => handleDonate()}
-                    size={ButtonSize.medium}
-                    disabled={buttonDisabled()}
-                    style={{ width: "100%"}}
-                  >
-                    <span>
-                      {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
-                    </span>
-                  </Button>
-                </div>
-              </div>
+              <TextareaField
+                fieldName="Коментарий"
+                maxLength={200}
+                value={form?.comment}
+                disabled={address == ''}
+                formName="comment"
+                setForm={setFormValue}
+                inputProps={{
+                  placeholder: "Введите коментарий",
+                  name: "comment",
+                  rows: 5,
+                }}
+              />
           </Wrapper>
-        )}
-        {address !== '' && (
-          <Wrapper cs={styles.userInfo} style={{ width: isMobileWidth ? '100%' : 'fit-content' }}>
-            <div className={styles.userInfoContent}>
-              <Avatar username={pageProps.link.User?.username || 'A'} size={AvatarSize.normal} />
-              <h2>{pageProps.link.User?.username}</h2>
-            </div>
-            <div className={styles.infoPayment}>
-              <div className={styles.row}>
-                <span className={styles.rowName}>Контракт</span>
-                <span className={styles.rowValue}>
-                  <Link href={`https://tonviewer.com/${SMART_CONTRACT_FORWARDER}`}>
-                    {sliceWalletAddress(SMART_CONTRACT_FORWARDER, 6)}
-                  </Link>
-                </span>
+          {address === '' && (
+            <Wrapper cs={styles.userInfo} style={{ width: isMobileWidth ? '100%' : 'fit-content' }}>
+                <div className={styles.emptyInfo}>
+                  <div className={styles.hintsEmptyInfo}>
+                    <IconWallet96 />
+                    <p>Подключите кошелк для отправки</p>
+                    <Link className={styles.lk} href={'/articles/quick'}>
+                        Как это работает?
+                    </Link>
+                  </div>
+                  <div className={styles.donatesButton}>
+                    <Button
+                      type={TypeButton.primary}
+                      onClick={address == '' ? () => open() : () => handleDonate()}
+                      size={ButtonSize.medium}
+                      disabled={buttonDisabled()}
+                      style={{ width: "100%"}}
+                    >
+                      <span>
+                        {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
+                      </span>
+                    </Button>
+                  </div>
+                </div>
+            </Wrapper>
+          )}
+          {address !== '' && (
+            <Wrapper cs={styles.userInfo} style={{ width: isMobileWidth ? '100%' : 'fit-content' }}>
+              <div className={styles.userInfoContent}>
+                <Avatar username={pageProps.link.User?.username || 'A'} size={AvatarSize.normal} />
+                <h2>{pageProps.link.User?.username}</h2>
               </div>
+              <div className={styles.infoPayment}>
+                <div className={styles.row}>
+                  <span className={styles.rowName}>Контракт</span>
+                  <span className={styles.rowValue}>
+                    <Link href={`https://tonviewer.com/${SMART_CONTRACT_FORWARDER}`} target={'_blank'}>
+                      {sliceWalletAddress(SMART_CONTRACT_FORWARDER, 6)}
+                    </Link>
+                  </span>
+                </div>
 
-              <div className={styles.row}>
-                <span className={styles.rowName}>Коммисия</span>
-                <span className={styles.rowValue}>0%</span>
-              </div>
-            </div>
-            <div className={styles.infoPayment}>
-              <Skeleton show={isShowFinance} style={skeletonStyle}>
-                <div className={styles.row}>
-                  <span className={styles.rowName}>Ваш баланс</span>
-                  <span className={styles.rowValue}>{formatNumber(financeInfo.balance)} TON</span>
-                </div>
-              </Skeleton>
-              <Skeleton show={isShowFinance} style={skeletonStyle}>
-                <div className={styles.row}>
-                  <span className={styles.rowName}>Цена TON</span>
-                  <span className={styles.rowValue}>${formatNumber(financeInfo.currencies.USD)}</span>
-                </div>
-              </Skeleton>
-              {/* <Skeleton show={isShowFinance} style={skeletonStyle}>
                 <div className={styles.row}>
                   <span className={styles.rowName}>Коммисия</span>
                   <span className={styles.rowValue}>0%</span>
                 </div>
-              </Skeleton> */}
-              <Skeleton show={isShowFinance} style={skeletonStyle}>
-                <div className={styles.row} style={{ alignItems: 'start' }}>
-                  <span className={styles.rowName}>К&nbsp;оплате</span>
-                  <span className={styles.rowValue}>
-                    {formatNumber(Number(form.amount || 0), 4)}&nbsp;TON
-                    ≈&nbsp;${formatNumber(Number(form.amount || 0) * financeInfo.currencies.USD, 4)}
+              </div>
+              <div className={styles.infoPayment}>
+                <Skeleton show={isShowFinance} style={skeletonStyle}>
+                  <div className={styles.row}>
+                    <span className={styles.rowName}>Ваш баланс</span>
+                    <span className={styles.rowValue}>{formatNumber(financeInfo.balance)} TON</span>
+                  </div>
+                </Skeleton>
+                <Skeleton show={isShowFinance} style={skeletonStyle}>
+                  <div className={styles.row}>
+                    <span className={styles.rowName}>Цена TON</span>
+                    <span className={styles.rowValue}>${formatNumber(financeInfo.currencies.USD)}</span>
+                  </div>
+                </Skeleton>
+                <Skeleton show={isShowFinance} style={skeletonStyle}>
+                  <div className={styles.row} style={{ alignItems: 'start' }}>
+                    <span className={styles.rowName}>К&nbsp;оплате</span>
+                    <span className={styles.rowValue}>
+                      {formatNumber(Number(form.amount || 0), 4)}&nbsp;TON
+                      ≈&nbsp;${formatNumber(Number(form.amount || 0) * financeInfo.currencies.USD, 4)}
+                    </span>
+                  </div>
+                </Skeleton>
+              </div>
+              <div className={styles.donatesButton}>
+                <Button
+                  type={TypeButton.primary}
+                  onClick={address == '' ? () => open() : () => handleDonate()}
+                  size={ButtonSize.medium}
+                  disabled={buttonDisabled()}
+                  style={{ width: "100%"}}
+                >
+                  <span>
+                    {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
                   </span>
-                </div>
-              </Skeleton>
-            </div>
-            <div className={styles.donatesButton}>
-              <Button
-                type={TypeButton.primary}
-                onClick={address == '' ? () => open() : () => handleDonate()}
-                size={ButtonSize.medium}
-                disabled={buttonDisabled()}
-                style={{ width: "100%"}}
-              >
-                <span>
-                  {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
-                </span>
-              </Button>
-            </div>
-          </Wrapper>
-        )}
+                </Button>
+              </div>
+            </Wrapper>
+          )}
+        </div>
       </div>
       <div className={styles.wrapperFaq}>
         <Dropdown arrayInfo={arrayFaq} />

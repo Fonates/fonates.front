@@ -204,10 +204,15 @@
       align-items: center;
       flex: 1;
       gap: 24px;
+
+      @media screen and (max-width: 768px) {
+            margin-bottom: 24px;
+      }
 }
 
 .emptyInfo p {
       font-weight: 590;
       font-size: 26px;
       text-align: center;
+      max-width: 362px;
 }
