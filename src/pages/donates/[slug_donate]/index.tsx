@@ -36,7 +36,7 @@ export type Donate = {
 export function storeDonate(src: Donate) {
   return (builder: Builder) => {
       let b_0 = builder;
-      b_0.storeUint(2018962093, 64);
+      b_0.storeUint(2018962093, 32);
       b_0.storeAddress(src.to);
       b_0.storeStringRefTail(src.text);
       b_0.storeInt(src.value, 257);
