@@ -129,7 +129,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
     }
   }
 
-  const requestTxTonapi = async (hash: string): Promise<boolean> => {
+  const requestTxTonapi = async (hash: string): Promise<{ amount: number, status: boolean }> => {
     try {
       const { data } = await axios.get(`https://tonapi.io/v2/events/${hash}`)
       if (!data?.actions || !Array.isArray(data?.actions)) {
@@ -139,10 +139,19 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
         throw new Error('[ERROR]: array actions is null');
       }
 
-      return data.actions[0]?.status || false;
+      const isSuccessExecute = data.actions[0]?.status == "ok"
+      const isSuccessTransfer = data.actions[1]?.status == "ok"
+
+      return {
+        amount: data.actions[1]?.TonTransfer?.amount || Number(form.amount) * 1000000000,
+        status: (isSuccessExecute && isSuccessTransfer) || false
+      }
     } catch (error) {
       console.error(error);
-      return false
+      return {
+        amount: Number(form?.amount) * 1000000000,
+        status: false
+      }
     }
   }
 
@@ -163,15 +172,16 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
       });
 
       const hash = Cell.fromBase64(tx.boc).hash().toString('hex');
-      const status = await requestTxTonapi(hash)
+      const txData = await requestTxTonapi(hash)
         
-      if (!status) {
+      if (!txData.status) {
         throw new Error('[ERROR]: send donate');
       }
 
       const result = await api.Create({
+        id: 0,
         hash: hash,
-        amount: Number(form?.amount || 0),
+        amount: txData.amount,
         username: form.name,
         comment: form.comment,
         linkId: pageProps.link.id,
