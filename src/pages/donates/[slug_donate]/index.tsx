@@ -28,27 +28,18 @@ interface IDonatePage {
 export type Donate = {
   $$type: 'Donate';
   to: Address;
-  text: string;
-  value: number | bigint;
+  comment: string;
 }
-
 
 export function storeDonate(src: Donate) {
   return (builder: Builder) => {
       let b_0 = builder;
-      b_0.storeUint(2018962093, 32);
+      b_0.storeUint(753836423, 32);
       b_0.storeAddress(src.to);
-      b_0.storeStringRefTail(src.text);
-      b_0.storeInt(src.value, 257);
+      b_0.storeStringRefTail(src.comment);
   };
 }
 
-function toBase64Url(base64String: string) {
-    return base64String
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/, '');
-}
 
 const api = new ApiDonates({
   baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
@@ -105,13 +96,11 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
   })
 
   const isShowFinance = financeInfo.isCurrency && financeInfo.isWallet;
-  const amount = Number(form?.amount || 0) * 10 ** 9;
 
   const danate: Donate = {
     $$type: 'Donate',
     to: Address.parse(String(pageProps.link.User?.address || '')),
-    text: `ton.fonates|${form.name}|${form.comment}` || '',
-    value: toNano(String(amount)),
+    comment: `ton.fonates|${form.name}|${form.comment}` || '',
   }
 
   const body = beginCell().
@@ -163,7 +152,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
         messages: [
           {
             address: SMART_CONTRACT_FORWARDER,
-            amount: String(amount),
+            amount: toNano(Number(form?.amount || 0)).toString(),
             payload: body,
           }
         ],
@@ -182,7 +171,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
 
       const result = await api.Create({
         hash: hash,
-        amount: amount,
+        amount: Number(form?.amount || 0),
         username: form.name,
         comment: form.comment,
         linkId: pageProps.link.id,
