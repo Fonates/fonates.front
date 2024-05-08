@@ -307,14 +307,14 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
                 }}
               />
               <TextareaField
-                fieldName="Коментарий"
+                fieldName="Комментарий"
                 maxLength={200}
                 value={form?.comment}
                 disabled={address == ''}
                 formName="comment"
                 setForm={setFormValue}
                 inputProps={{
-                  placeholder: "Введите коментарий",
+                  placeholder: "Введите комментарий",
                   name: "comment",
                   rows: 5,
                 }}
@@ -325,7 +325,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
                 <div className={styles.emptyInfo}>
                   <div className={styles.hintsEmptyInfo}>
                     <IconWallet96 />
-                    <p>Подключите кошелк для отправки</p>
+                    <p>Подключите кошелёк для отправки доната</p>
                     <Link className={styles.lk} href={'/articles/quick'}>
                         Как это работает?
                     </Link>
@@ -339,7 +339,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
                       style={{ width: "100%"}}
                     >
                       <span>
-                        {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
+                        {address == '' ? 'Подключить кошелёк' : 'Отправить донат'}
                       </span>
                     </Button>
                   </div>
@@ -399,7 +399,7 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
                   style={{ width: "100%"}}
                 >
                   <span>
-                    {address == '' ? 'Подключить кошелк' : 'Отправить донат'}
+                    {address == '' ? 'Подключить кошелёк' : 'Отправить донат'}
                   </span>
                 </Button>
               </div>
