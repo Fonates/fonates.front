@@ -36,7 +36,7 @@ const Page = () => {
                         <h3>Wallet installation</h3>
                         <p>
                             <a href="https://ton.org/ru/wallets?locale=ru&pagination[limit]=-1">Download and install</a> the mobile version of the wallet. Log into the app and follow the instructions.
-                            Make sure to save the 24-word seed phrase in a safe place and do not share it with anyone — if you lose the seed phrase, you won't be able to recover your wallet.
+                            Make sure to save the 24-word seed phrase in a safe place and do not share it with anyone — if you lose the seed phrase, you wont be able to recover your wallet.
                         </p>
                         <h3>Authorization</h3>
                         <p>
