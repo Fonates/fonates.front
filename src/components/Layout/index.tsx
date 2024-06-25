@@ -17,7 +17,7 @@ export const Layout = ({ children }: { children: React.ReactNode | any }) => {
     
     useEffect(() => {
         tonConnectUI.uiOptions = {
-            language: 'ru',
+            language: 'en',
             uiPreferences: {
                 theme: THEME.LIGHT,
             }

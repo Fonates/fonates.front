@@ -136,30 +136,30 @@ const PageConstructor = () => {
   return (
       <div className={styles.wrapper}>
             <div className={"wp__title"}>
-              <h1>Конструктор ссылок</h1>
+              <h1>Link Constructor</h1>
               <div className={styles.form}>
                     <Wrapper cs={styles.wpController}>
                         <div className={styles.wrapperForm}>
                           <div className={styles.btnController}>
                               <TextField
                                   disabled={form?.isGenerated || isUserAddress}
-                                  fieldName="Название ссылки"
+                                  fieldName="Link name"
                                   formName="linkname"
                                   value={form?.linkname || ''}
                                   setForm={setFormValue}                          
                                   maxChars={100}
                                   inputProps={{
-                                      placeholder: "Введите ваше имя или никнейм",
+                                      placeholder: "Enter your name or nickname",
                                       name: "name",
                                   }}
                               />
                               {!isUserAddress ? (
                                   <Button type={TypeButton.secondary} size={ButtonSize.medium} disabled={form?.isGenerated || isLinkName} onClick={handleGenerateLink}>
-                                      Генерировать ссылку
+                                      Generate Link
                                   </Button>
                               ) : (
                                   <Button type={TypeButton.secondary} size={ButtonSize.medium} onClick={open}>
-                                      Подключить кошелек
+                                      Connect Wallet
                                   </Button>
                               )}
                           </div>
@@ -169,7 +169,7 @@ const PageConstructor = () => {
                                   value={form?.fullLink || BASE_URL}
                                   onCopy={onCopy}
                                   disabled={isLinkName || !form?.isGenerated}
-                                  fieldName="Ссылка на странцу доната"
+                                  fieldName="Donation Page Link"
                                   />
                           </div>
                         </div>
@@ -196,7 +196,7 @@ const PageConstructor = () => {
               </div>
             </div>
             <div className="wp__title">
-              <h2>Состояние ссылки</h2>
+              <h2>Link Status</h2>
               <div className={styles.form}>
                   <ProgressActivation status={linkStatus} linkId={form?.linkId} />
               </div>

@@ -10,20 +10,20 @@ const Page = () => {
                     <Image src={'/quick_img2.jpg'} width={640} height={360} alt={'quick_img.jpg'} />
                 </Wrapper>
                 <div className="article__texts">
-                    <h1>Зрителям</h1>
+                    <h1>For viewers</h1>
                     <div>
-                        <h3>Установка кошелька</h3>
+                        <h3>Wallet installation</h3>
                         <p>
-                            <a href="https://ton.org/ru/wallets?locale=ru&pagination[limit]=-1">Загрузите и установите</a> мобильную версию кошелька. Войдите в приложение и следуйте рекомендациям. 
-                            Обязательно сохраните seed-фразу из 24 слов в безопасное место и никому её не сообщайте — при потере seed-фразы восстановить кошелёк не получится.
+                            <a href="https://ton.org/ru/wallets?locale=ru&pagination[limit]=-1">Download and install</a> the mobile version of the wallet. Log into the app and follow the instructions.
+                            Make sure to save the 24-word seed phrase in a safe place and do not share it with anyone — if you lose the seed phrase, you won&apos;t be able to recover your wallet.
                         </p>
-                        <h3>Пополнение баланса</h3>
+                        <h3>Top-up balance</h3>
                         <p>
-                            <a href="https://ton.org/ru/buy-toncoin?filters[exchange_groups][slug][$eq]=buy-with-card&pagination[page]=1&pagination[pageSize]=100">Пополните кошелёк</a> банковской картой или обменяйте с другой криптовалютой.
+                            <a href="https://ton.org/ru/buy-toncoin?filters[exchange_groups][slug][$eq]=buy-with-card&pagination[page]=1&pagination[pageSize]=100">Top up your wallet</a> using a bank card or exchange from another cryptocurrency.
                         </p>
-                        <h3>Отправка доната</h3>
+                        <h3>Sending a donation</h3>
                         <p>
-                            Авторизуйтесь с помощью одного из предложенных кошельков. Перейдите на страницу доната, выберите сумму и напишите текст для отправки. Нажмите «Отправить донат» и подтвердите транзакцию в кошельке.
+                            Log in using one of the offered wallets. Go to the donation page, select the amount, and write a message to send. Click &ldquo;Send donation&ldquo; and confirm the transaction in the wallet.
                         </p>
                     </div>
                 </div>
@@ -31,28 +31,28 @@ const Page = () => {
             <br />
             <div className="article">
                 <div className="article__texts">
-                    <h1>Стримерам</h1>
+                    <h1>For streamers</h1>
                     <div>
-                        <h3>Установка кошелька</h3>
+                        <h3>Wallet installation</h3>
                         <p>
-                            <a href="https://ton.org/ru/wallets?locale=ru&pagination[limit]=-1">Загрузите и установите</a> мобильную версию кошелька. Войдите в приложение и следуйте рекомендациям. 
-                            Обязательно сохраните seed-фразу из 24 слов в безопасное место и никому её не сообщайте — при потере seed-фразы восстановить кошелёк не получится.
+                            <a href="https://ton.org/ru/wallets?locale=ru&pagination[limit]=-1">Download and install</a> the mobile version of the wallet. Log into the app and follow the instructions.
+                            Make sure to save the 24-word seed phrase in a safe place and do not share it with anyone — if you lose the seed phrase, you won't be able to recover your wallet.
                         </p>
-                        <h3>Авторизация</h3>
+                        <h3>Authorization</h3>
                         <p>
-                            Чтобы начать принимать пожертвования, перейдите в «Конструктор» и авторизуйтесь с помощью вашего TON кошелька.
+                            To start receiving donations, go to the &quot;Constructor&quot; and log in using your TON wallet.
                         </p>
-                        <h3>Генерация ссылки</h3>
+                        <h3>Generating a link</h3>
                         <p>
-                            Нажмите по «Генерировать ссылку» чтобы получить уникальную ссылку для пожертвований
+                            Click &quot;Generate link&quot; to get a unique donation link.
                         </p>
-                        <h3>Активация ссылка</h3>
+                        <h3>Activating the link</h3>
                         <p>
-                            Активируйте вашу уникальную ссылку через OBS: вставьте ссылку в источник «Браузер». 
+                            Activate your unique link through OBS: paste the link into the &quot;Browser&quot; source.
                         </p>
-                        <h3>Распространение ссылки</h3>
+                        <h3>Sharing the link</h3>
                         <p>
-                            Поздравляем! Ваша ссылка создана и активирована, теперь вы можете распространять её, например, добавить в описание Twitch канала и получать пожертвования.
+                            Congratulations! Your link is created and activated, now you can share it, for example, add it to the description of your Twitch channel and receive donations.
                         </p>
                     </div>
                 </div>

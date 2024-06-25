@@ -22,23 +22,23 @@ interface IStep {
 
 const STEPS: IStep[] = [
     {
-        title: 'Генерация ссылки',
-        subtitle: 'Для создания ссылки оплаты подключите кошелёк, заполните форму и нажмите по кнопке «Генерировать ссылку»',
+        title: 'Link Generation',
+        subtitle: 'To create a payment link, connect your wallet, fill out the form, and click the "Generate Link" button',
         status: LinkActivationStatus.default,
     },
     // {
-    //     title: 'Генерация завершена',
-    //     subtitle: 'Дождитесь получения уникальной ссылки, скопируйте её и опубликуйте в социальных сетях',
+    //     title: 'Generation Completed',
+    //     subtitle: 'Wait for the unique link to be generated, copy it, and publish it on social media',
     //     status: LinkActivationStatus.generated,
     // },
     {
-        title: 'Интеграция в OBS Studio',
-        subtitle: 'Скопируйте и вставьте полученную ссылку в источник «Браузер» вашего OBS для активации окна оплаты',
+        title: 'Integration in OBS Studio',
+        subtitle: 'Copy and paste the generated link into the "Browser" source of your OBS to activate the payment window',
         status: LinkActivationStatus.integration,
     },
     {
-        title: 'Активация',
-        subtitle: 'Теперь вы можете делиться ссылкой и получать пожертвования',
+        title: 'Activation',
+        subtitle: 'Now you can share the link and receive donations',
         status: LinkActivationStatus.active
     },
 ];

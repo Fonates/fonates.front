@@ -14,15 +14,15 @@ const Page = () => {
       <div className={styles.mainInfo}>
         <div className={styles.topSection}>
           <div className={styles.title}>
-            <h1>Новая эра донатов</h1>
-            <p>Отправка донатов стримерам через самый быстрый блокчейн в мире - <span>TON</span></p>
+            <h1>New era of donations</h1>
+            <p>Send donations to streamers via the fastest blockchain in the world - <span>TON</span></p>
           </div>
           <Button 
             type={TypeButton.accentBorder}
             onClick={() => router.push(isMobileWidth ? '/constructor' : '/articles/quick')} 
             style={{ width: 'fit-content' }}
           >
-            Быстрый старт
+            Quick Start
           </Button>
         </div>
         <div className={styles.wpObsView}>
@@ -31,7 +31,7 @@ const Page = () => {
             index={0}
             amountInTon={14}
             username="JimmyBobs"
-            message="Атмосферные у тебя стримы, удачи в развитии"
+            message="Your streams have a great atmosphere, good luck with your development"
             isVisible={true}
             key="key"
             position={{
@@ -44,7 +44,7 @@ const Page = () => {
             index={0} 
             amountInTon={24}
             username="Petrushka"
-            message="Все видят это сообщение на стриме?"
+            message="Is everyone seeing this message on the stream?"
             isVisible={true}
             key="key"
             position={{
@@ -57,7 +57,7 @@ const Page = () => {
             index={0} 
             amountInTon={14} 
             username="Hamirlay" 
-            message="@bratishkinoff Здарова шеф, сегодня мемы ТГ будут?" 
+            message="@bratishkinoff Hey boss, are we having Telegram memes today?" 
             isVisible={true} 
             key="key" 
             position={{
@@ -70,7 +70,7 @@ const Page = () => {
             index={0} 
             amountInTon={32} 
             username="PewPells" 
-            message="@JesusAVGN ля какая башня" 
+            message="@JesusAVGN Wow, what a tower" 
             isVisible={true}
             key="key" 
             position={{

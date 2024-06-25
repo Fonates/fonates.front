@@ -6,12 +6,12 @@ export const Footer = () => {
         <div className={styles.wrapper}>
             <div className={styles.info}>
                 <div className={styles.middleSide}>
-                    <p>Соцсети</p>
+                    <p>Social Media</p>
                     <Link href="https://t.me/fonates">
                         Telegram
                     </Link>
                     {/* <Link href="https://t.me/fonateschat">
-                        Telegram Чат
+                        Telegram Chat
                     </Link> */}
                     {/* <Link href="https://vk.com/fonates">
                         Vkontakte
@@ -27,21 +27,21 @@ export const Footer = () => {
                     </Link>
                 </div>
                 <div className={styles.middleSide}>
-                    <p>Сервис</p>
+                    <p>Service</p>
                     <Link href="https://t.me/pewpells">
-                        Поддержка
+                        Support
                     </Link>
                     <Link href="https://t.me/thepettruha">
-                        Партнерам
+                        For Partners
                     </Link>
                 </div>
                 <div className={styles.middleSide}>
-                    <p>Статьи</p>
+                    <p>Articles</p>
                     <Link href="https://fonates.com/articles/quick">
-                        Быстрый старт
+                        Quick Start
                     </Link>
                     <Link href="https://fonates.com/articles/how-it-is-work">
-                        Как это работает?
+                        How It Works?
                     </Link>
                     <Link href="https://fonates.com/articles/roadmap">
                         Roadmap
@@ -50,7 +50,7 @@ export const Footer = () => {
             </div>
             <div className={styles.product}>
                 <div className={styles.leftSide}>
-                    <span>Base on <b>TON</b></span>
+                    <span>Based on <b>TON</b></span>
                 </div>
                 <div className={styles.rightSide}>
                     <span>© 2024 TON Fonates</span>

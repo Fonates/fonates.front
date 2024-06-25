@@ -11,21 +11,21 @@ const Page = () => {
                     <Image src={'/how_img.jpg'} width={640} height={360} alt={'quick_img.jpg'} />
                 </Wrapper>
                 <div className="article__texts">
-                    <h1>Как это работает?</h1>
+                    <h1>How does it work?</h1>
                     <div>
-                        <h3>Установка кошелька</h3>
+                        <h3>Wallet Installation</h3>
                         <p>
-                            <a href="https://ton.org/ru/wallets?locale=ru&pagination[limit]=-1">Загрузите и установите</a> мобильную версию кошелька. Войдите в приложение и следуйте рекомендациям. 
-                            Обязательно сохраните seed-фразу из 24 слов в безопасное место и никому её не сообщайте — при потере seed-фразы восстановить кошелёк не получится.
+                            <a href="https://ton.org/ru/wallets?locale=ru&pagination[limit]=-1">Download and install</a> the mobile wallet. Log into the app and follow the instructions. 
+                            Make sure to save the 24-word seed phrase in a safe place and do not share it with anyone — if you lose the seed phrase, you won&rsquo;t be able to recover your wallet.
                         </p>
-                        <h3>Пополнение баланса</h3>
+                        <h3>Top-up Balance</h3>
                         <p>
-                            <a href="https://ton.org/ru/buy-toncoin?filters[exchange_groups][slug][$eq]=buy-with-card&pagination[page]=1&pagination[pageSize]=100">Пополните кошелёк</a> банковской картой или обменяйте с другой криптовалютой.
+                            <a href="https://ton.org/ru/buy-toncoin?filters[exchange_groups][slug][$eq]=buy-with-card&pagination[page]=1&pagination[pageSize]=100">Top up your wallet</a> using a bank card or exchange from another cryptocurrency.
                         </p>
-                        <h3>Отправка доната</h3>
+                        <h3>Sending a Donation</h3>
                         <p>
-                            Перейдите на страницу доната, выберите сумму и напишите текст для отправки.
-                            Нажмите «Отправить донат» и подтвердите транзакцию в кошельке.
+                            Go to the donation page, select the amount, and write a message to send.
+                            <br/>Click &quot;Send Donation&quot; and confirm the transaction in the wallet.
                         </p>
                     </div>
                 </div>

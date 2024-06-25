@@ -26,7 +26,7 @@ export const Header = ({ walletAddress }: HeaderProps) => {
     }
 
     const arrayElementsDropdown = [{
-        name: 'Выйти',
+        name: 'Logout',
         value: '',
         onClick: logout,
     }];
@@ -43,10 +43,10 @@ export const Header = ({ walletAddress }: HeaderProps) => {
                 {!isMobileWidth && (
                     <Fragment>
                         <Link href="/constructor" className={styles.link}>
-                            Конструктор
+                            Constructor
                         </Link>
                         <Link href="/articles/quick" className={styles.link}>
-                            Быстрый старт
+                            Quick Start
                         </Link>
                     </Fragment>
                 )}
@@ -67,7 +67,7 @@ export const Header = ({ walletAddress }: HeaderProps) => {
                     </Dropdown>
                 ) : (
                     <Button type="tertiary" size={ButtonSize.small} onClick={open}>
-                        Войти
+                        Login
                     </Button>
                 )}
             </div>

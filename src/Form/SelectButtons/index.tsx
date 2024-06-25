@@ -44,7 +44,7 @@ export const SelectButtons = (props: SelectButtonsProps) => {
                                     )
                               })}
                               <span className={`${styles.button} ${indexElem < 0 && styles.active} ${styles.otherBtn} ${props?.disabled ? styles.disabled : ''}`} onClick={() => handleSelect(-1)}>
-                                    Другая
+                                    Other
                               </span>
                         </div>
                   </div>
@@ -57,7 +57,7 @@ export const SelectButtons = (props: SelectButtonsProps) => {
                               maxChars={11} 
                               value={props.value}
                               inputProps={{
-                                    placeholder: 'Введите сумму доната',
+                                    placeholder: 'Enter donation amount',
                                     name: 'amount',
                               }}
                         />

@@ -206,45 +206,45 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
 
   const arrayFaq = [
     {
-      name: "Почему TON Fonates?",
-      value: "Скорость транзакций превосходит обычный перевод в банковских приложениях. Ваши средства не будут заморожены, если вы не ведёте трансляцию определённое время. TON Fonates не имеет такого понятия, как баланс личного кабинета, а все пожертвования напрямую отправляются на кошелёк стримера. Вы сможете отправлять и получать пожертвования из любой страны, несмотря на ограничения регуляторов. Станете активным пользователем Web3 технологий недалёкого будущего.",
+      name: "Why TON Fonates?",
+      value: "Transaction speed surpasses regular transfers in banking apps. Your funds won't be frozen if you don't broadcast for a certain period. TON Fonates doesn't have the concept of a personal account balance, and all donations are sent directly to the streamer's wallet. You can send and receive donations from any country despite regulatory restrictions. You will become an active user of Web3 technologies in the near future."
     },
     {
-      name: "Как установить и создать TON кошелёк?",
-      value: "Перейдите в App Store или Google Play на своём мобильном устройстве и найдите приложение Tonkeeper. Скачайте и установите его на своё устройство. После установки приложения Tonkeeper, запустите его на своём устройстве и выберите «Создать новый кошелёк». Создайте надёжный пароль для вашего нового кошелька TON в Tonkeeper. После этого вам может быть предложено сделать резервную копию вашего кошелька. Обязательно сохраните seed-фразу (набор слов), которая позволит восстановить доступ к вашему кошельку в случае утери пароля."
+      name: "How to install and create a TON wallet?",
+      value: "Go to the App Store or Google Play on your mobile device and find the Tonkeeper app. Download and install it on your device. After installing the Tonkeeper app, launch it on your device and select 'Create a new wallet.' Create a strong password for your new TON wallet in Tonkeeper. After this, you may be prompted to back up your wallet. Be sure to save the seed phrase (a set of words) which will allow you to restore access to your wallet if you lose your password."
     },
     {
-      name: "Как пополнить баланс?",
-      value: "Приобрести TON можно за фиатную валюту или путём обмена другой криптовалюты на биржах или Р2Р-маркетах. Если вы новичок, рекомендуем использовать вариант с покупкой TON за фиатную валюту в Р2Р-маркете Telegram Wallet. Это самый лёгкий и быстрый способ приобрести TON.",
+      name: "How to top up the balance?",
+      value: "You can purchase TON for fiat currency or by exchanging another cryptocurrency on exchanges or P2P markets. If you are a beginner, we recommend using the option to buy TON for fiat currency on the P2P market Telegram Wallet. This is the easiest and fastest way to acquire TON."
     },
     {
-      name: "Как отправить донат?",
-      value: "Авторизуйтесь используя свой кошелёк. Перейдите на страницу доната, выберите сумму и напишите текст для отправки. Нажмите «Отправить донат». Подтвердите и отправьте транзакцию в кошельке Tonkeeper.",
+      name: "How to send a donation?",
+      value: "Log in using your wallet. Go to the donation page, select the amount, and write a message to send. Click 'Send donation.' Confirm and send the transaction in the Tonkeeper wallet."
     }
-  ];
+  ];  
 
   const handleGetWallet = async () => {
     const wallet = await requestAccountTonapi(address);
     if (!wallet) return
-
+  
     setFinanceInfo((items: any) => ({
       ...items,
       balance: Number(fromNano(wallet?.balance)),
       isWallet: true,
     }));
   }
-
+  
   const handleGetRates = async () => {
     const rates = await requestRates(['TON'], [Currencies.ton, Currencies.usd])
     if (!rates) return
-
+  
     setFinanceInfo((items: any) => ({
       ...items,
       isCurrency: true,
       currencies: rates['TON'].prices,
     }));
   }
-
+  
   const handleGetFinanceInfo = async () => {
     setTimeout(() => {
       handleGetWallet().then(() => {
@@ -257,93 +257,93 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
       })
     }, 1000)
   }
-
+  
   useEffect(() => {
     if (address != '' && isMounted) {
       handleGetFinanceInfo()
     }
   }, [isMounted, address])
-
+  
   useEffect(() => {
     setIsMounted(true)
   }, [])
-
+  
   const skeletonStyle = { width: '100%', height: '19px' };
-
+  
   return (
     <Fragment>
       <div className={"wp__title"}>
-        <h1>Отправить донат</h1>
+        <h1>Send Donation</h1>
         <div className={styles.wrapper}>
           <Wrapper cs={styles.wrapperForm}>
             <div className={styles.amountWrapper}>
-                <SelectButtons
-                  arrayValues={[1, 2, 5, 10]}
-                  nameValue="TON"
-                  value={form?.amount  || 0}
-                  setForm={(name: string, value: any) => {
-                    const valueToNumber = Number(value || 0)
-                    if (valueToNumber <= financeInfo.balance) {
-                      setFormValue(name, valueToNumber)
-                    } else {
-                      setFormValue(name, 0.0)
-                    }
-                  }}
-                  fieldName="Сумма доната"
-                  disabled={address == ''}
-                  formName="amount"
-                />
-              </div>
-              <TextField
-                fieldName="Имя"
-                formName="name"
-                maxChars={20}
-                value={form?.name}
-                setForm={setFormValue}
-                disabled={address == ''}
-                inputProps={{
-                  placeholder: "Введите ваше имя",
-                  name: "name",
+              <SelectButtons
+                arrayValues={[1, 2, 5, 10]}
+                nameValue="TON"
+                value={form?.amount || 0}
+                setForm={(name: string, value: any) => {
+                  const valueToNumber = Number(value || 0)
+                  if (valueToNumber <= financeInfo.balance) {
+                    setFormValue(name, valueToNumber)
+                  } else {
+                    setFormValue(name, 0.0)
+                  }
                 }}
-              />
-              <TextareaField
-                fieldName="Комментарий"
-                maxLength={200}
-                value={form?.comment}
+                fieldName="Donation Amount"
                 disabled={address == ''}
-                formName="comment"
-                setForm={setFormValue}
-                inputProps={{
-                  placeholder: "Введите комментарий",
-                  name: "comment",
-                  rows: 5,
-                }}
+                formName="amount"
               />
+            </div>
+            <TextField
+              fieldName="Name"
+              formName="name"
+              maxChars={20}
+              value={form?.name}
+              setForm={setFormValue}
+              disabled={address == ''}
+              inputProps={{
+                placeholder: "Enter your name",
+                name: "name",
+              }}
+            />
+            <TextareaField
+              fieldName="Comment"
+              maxLength={200}
+              value={form?.comment}
+              disabled={address == ''}
+              formName="comment"
+              setForm={setFormValue}
+              inputProps={{
+                placeholder: "Enter your comment",
+                name: "comment",
+                rows: 5,
+              }}
+            />
           </Wrapper>
           {address === '' && (
             <Wrapper cs={styles.userInfo} style={{ width: isMobileWidth ? '100%' : 'fit-content' }}>
-                <div className={styles.emptyInfo}>
-                  <div className={styles.hintsEmptyInfo}>
-                    <IconWallet96 />
-                    <p>Подключите кошелёк для отправки доната</p>
-                    <Link className={styles.lk} href={'/articles/quick'}>
-                        Как это работает?
-                    </Link>
-                  </div>
-                  <div className={styles.donatesButton}>
-                    <Button
-                      type={TypeButton.primary}
-                      onClick={address == '' ? () => open() : () => handleDonate()}
-                      size={ButtonSize.medium}
-                      disabled={buttonDisabled()}
-                      style={{ width: "100%"}}
-                    >
-                      <span>
-                        {address == '' ? 'Подключить кошелёк' : 'Отправить донат'}
-                      </span>
-                    </Button>
-                  </div>
+              <div className={styles.emptyInfo}>
+                <div className={styles.hintsEmptyInfo}>
+                  <IconWallet96 />
+                  <p>Connect a wallet to send a donation</p>
+                  <Link className={styles.lk} href={'/articles/quick'}>
+                    How does it work?
+                  </Link>
                 </div>
+                <div className={styles.donatesButton}>
+                  <Button
+                    type={TypeButton.primary}
+                    onClick={address == '' ? () => open() : () => handleDonate()}
+                    size={ButtonSize.medium}
+                    disabled={buttonDisabled()}
+                    style={{ width: "100%" }}
+                  >
+                    <span>
+                      {address == '' ? 'Connect Wallet' : 'Send Donation'}
+                    </span>
+                  </Button>
+                </div>
+              </div>
             </Wrapper>
           )}
           {address !== '' && (
@@ -354,35 +354,35 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
               </div>
               <div className={styles.infoPayment}>
                 <div className={styles.row}>
-                  <span className={styles.rowName}>Контракт</span>
+                  <span className={styles.rowName}>Contract</span>
                   <span className={styles.rowValue}>
                     <Link href={`https://tonviewer.com/${SMART_CONTRACT_FORWARDER}`} target={'_blank'}>
                       {sliceWalletAddress(SMART_CONTRACT_FORWARDER, 6)}
                     </Link>
                   </span>
                 </div>
-
+  
                 <div className={styles.row}>
-                  <span className={styles.rowName}>Коммисия</span>
+                  <span className={styles.rowName}>Commission</span>
                   <span className={styles.rowValue}>0%</span>
                 </div>
               </div>
               <div className={styles.infoPayment}>
                 <Skeleton show={isShowFinance} style={skeletonStyle}>
                   <div className={styles.row}>
-                    <span className={styles.rowName}>Ваш баланс</span>
+                    <span className={styles.rowName}>Your Balance</span>
                     <span className={styles.rowValue}>{formatNumber(financeInfo.balance)} TON</span>
                   </div>
                 </Skeleton>
                 <Skeleton show={isShowFinance} style={skeletonStyle}>
                   <div className={styles.row}>
-                    <span className={styles.rowName}>Цена TON</span>
+                    <span className={styles.rowName}>TON Price</span>
                     <span className={styles.rowValue}>${formatNumber(financeInfo.currencies.USD)}</span>
                   </div>
                 </Skeleton>
                 <Skeleton show={isShowFinance} style={skeletonStyle}>
                   <div className={styles.row} style={{ alignItems: 'start' }}>
-                    <span className={styles.rowName}>К&nbsp;оплате</span>
+                    <span className={styles.rowName}>To Pay</span>
                     <span className={styles.rowValue}>
                       {formatNumber(Number(form.amount || 0), 4)}&nbsp;TON
                       ≈&nbsp;${formatNumber(Number(form.amount || 0) * financeInfo.currencies.USD, 4)}
@@ -396,10 +396,10 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
                   onClick={address == '' ? () => open() : () => handleDonate()}
                   size={ButtonSize.medium}
                   disabled={buttonDisabled()}
-                  style={{ width: "100%"}}
+                  style={{ width: "100%" }}
                 >
                   <span>
-                    {address == '' ? 'Подключить кошелёк' : 'Отправить донат'}
+                    {address == '' ? 'Connect Wallet' : 'Send Donation'}
                   </span>
                 </Button>
               </div>
@@ -412,36 +412,37 @@ const DonatePage: NextPage<IDonatePage> = (pageProps) => {
       </div>
     </Fragment>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { slug_donate } = context.params || {};
-
-  if (!slug_donate || slug_donate === '') {
-    return {
-      notFound: true,
+  };
+  
+  export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { slug_donate } = context.params || {};
+  
+    if (!slug_donate || slug_donate === '') {
+      return {
+        notFound: true,
+      }
     }
-  }
-
-  const api = new ApiLinks({
-    baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
-    headers: {},
-  });
-
-  const slugDonateLink = slug_donate as string;
-  const response = await api.GetLinkBySlug(slugDonateLink);
-
-  if (!response || response?.error) {
-    return {
-      notFound: true,
+  
+    const api = new ApiLinks({
+      baseURL: process.env.NEXT_PUBLIC_API_URL_V1 || '',
+      headers: {},
+    });
+  
+    const slugDonateLink = slug_donate as string;
+    const response = await api.GetLinkBySlug(slugDonateLink);
+  
+    if (!response || response?.error) {
+      return {
+        notFound: true,
+      }
     }
-  }
-
-  return {
-    props: {
-      link: response || {},
-    },
-  }
-};
-
-export default DonatePage;
+  
+    return {
+      props: {
+        link: response || {},
+      },
+    }
+  };
+  
+  export default DonatePage;
+  
